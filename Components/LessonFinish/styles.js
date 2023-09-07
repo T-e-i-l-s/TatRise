@@ -20,10 +20,10 @@ export default StyleSheet.create({
 
     backgroundColor:'#bff2e8',
 
+    marginTop: 20,
+
     borderRadius:15,
-    borderColor:'#bff2e8',
-    
-    marginTop: 10,
+    borderColor:'#bff2e8'
     
   },
 
@@ -65,10 +65,10 @@ export default StyleSheet.create({
   taskBlock: {
 
     width: '100%',
-    height: '30%',
+    height: '90%',
     
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
 
   },
 
@@ -80,9 +80,7 @@ export default StyleSheet.create({
     color: '#224d44',
     textAlign: 'left',
     fontSize: 22,
-    fontWeight: '500',
-    
-    marginTop: 10,
+    fontWeight: '500'
 
   },
 
@@ -102,7 +100,7 @@ export default StyleSheet.create({
   listBlock: {
 
     width: '90%',
-    height: '70%',
+    height: '10%',
     
     alignItems: 'center',
     justifyContent: 'flex-end',

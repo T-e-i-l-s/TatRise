@@ -4,6 +4,7 @@ import styles from './styles'
 import * as Progress from 'react-native-progress';
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 let flag = false
 let result = 0
@@ -70,8 +71,8 @@ export default function App({ navigation }) {
     if ( page >= tasks.length ) {
 
       setTimeout(() => {
-        AsyncStorage.setItem('part' + num, result/3)
-        arr.push(result/3)
+        AsyncStorage.setItem('part' + num, Math.floor(result/3*12))
+        arr.push(Math.floor(result/3*12))
         navigation.navigate('main', {'num': 0, 'levels': arr})
         AsyncStorage.setItem('level', '0')
       },500)
@@ -85,7 +86,7 @@ export default function App({ navigation }) {
     if ( page % 3 == 1 ) {
 
       arr.push(result/3)
-      AsyncStorage.setItem('part' + num, result/3)
+      AsyncStorage.setItem('part' + num, Math.floor(result/3*12))
       num++
       result = 0
 
@@ -108,7 +109,7 @@ export default function App({ navigation }) {
 
   return (
 
-    <View style={styles.container}>
+    <SafeAreaView  style={styles.container}>
 
       <StatusBar style="auto" />
 
@@ -138,7 +139,7 @@ export default function App({ navigation }) {
         </View>
       </View>
 
-    </View>
+    </SafeAreaView>
 
   );
 

@@ -73,7 +73,7 @@ export default StyleSheet.create({
 
     color: '#224d44',
     textAlign: 'left',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '500',
 
   },
@@ -121,6 +121,15 @@ export default StyleSheet.create({
 
     borderRadius: 20,
 
+    shadowColor: "#224d44",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 5,
+    elevation: 25
+
   },
 
 
@@ -130,7 +139,7 @@ export default StyleSheet.create({
 
     color: '#f5fffd',
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '500',
 
   },
@@ -141,12 +150,10 @@ export default StyleSheet.create({
     flexDirection: 'row',
 
     width: '100%',
-    height: '20%',
-
-    marginTop: 20,
 
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 20,
 
   },
 
@@ -159,12 +166,22 @@ export default StyleSheet.create({
     width: '40%',
     height: '100%',
 
-    margin: 10,
+    marginHorizontal: 10,
     padding: 10,
+    paddingVertical: 20,
 
     backgroundColor: '#f5fffd',
 
     borderRadius: 20,
+
+    shadowColor: "#224d44",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 5,
+    elevation: 25
 
   },
 
@@ -175,17 +192,18 @@ export default StyleSheet.create({
 
     color: '#224d44',
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '500',
+    
+    marginTop: 5
 
   },
 
 
   blockImage: {
 
-    height: 60,
-    width: 60,
-    marginTop: 15
+    height: 55,
+    width: 55,
 
   },
 

@@ -1,11 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import { Text, View } from 'react-native';
 import styles from './styles'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App({ navigation }) {
 
   const toMain = () => {
 
+    AsyncStorage.setItem('part1',0)
+    AsyncStorage.setItem('part2',0)
+    AsyncStorage.setItem('part3',0)
+    AsyncStorage.setItem('level',0)
     navigation.navigate('main',{'num': 0, 'levels': [0,0,0,0]})
 
   }

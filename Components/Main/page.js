@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { Image, Text, View } from 'react-native';
+import { Image, Text, View, ScrollView } from 'react-native';
 import styles from './styles'
 import * as Progress from 'react-native-progress';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function App({ route, navigation }) {
 
@@ -10,22 +11,13 @@ export default function App({ route, navigation }) {
 
   const [progress,setProgress] = useState(param['num'])
 
-
-  async function beginLesson () {
-    
-    navigation.navigate('lesson',route.params)
-
-  }
-
-
   return (
 
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
 
       <StatusBar style="auto" />
 
       <View style={styles.topBlock}>
-
 
         <View style={styles.progressBlock}>
 
@@ -40,7 +32,7 @@ export default function App({ route, navigation }) {
         </View>
 
 
-        <View style={styles.beginLesson} onStartShouldSetResponder={() => beginLesson()}>
+        <View style={styles.beginLesson} onStartShouldSetResponder={() => navigation.navigate('lesson',route.params)}>
           <Text style={styles.beginLessonText}>Пройти урок</Text>
         </View>
 
@@ -48,21 +40,23 @@ export default function App({ route, navigation }) {
 
         <View style={styles.row}>
 
-          <View style={styles.block}>
+          <View style={styles.block} onStartShouldSetResponder={() => navigation.navigate('anki',route.params)}>
 
-            <Text style={styles.blockTitle}>Карточки со словами</Text>
             <Image
             source={require('../../assets/icons/anki.png')}
             style={styles.blockImage}/>
 
+            <Text style={styles.blockTitle}>Карточки</Text>
+            
           </View>
 
-          <View style={styles.block}>
+          <View style={styles.block} onStartShouldSetResponder={() => navigation.navigate('culture',route.params)}>
 
-            <Text style={styles.blockTitle}>Погружение в культуру</Text>
             <Image
             source={require('../../assets/icons/history.png')}
             style={styles.blockImage}/>
+
+            <Text style={styles.blockTitle}>Культура</Text>
 
           </View>
 
@@ -72,28 +66,28 @@ export default function App({ route, navigation }) {
 
         <View style={styles.row}>
 
-          <View style={styles.block}>
+          <View style={styles.block} onStartShouldSetResponder={() => navigation.navigate('facts',route.params)}>
 
-            <Text style={styles.blockTitle}>Как говорить правильно?</Text>
-            <Image
-            source={require('../../assets/icons/spech.png')}
-            style={[styles.blockImage,{
-              height: 50,
-              width: 50}]}/>
-
-          </View>
-
-          <View style={styles.block}>
-
-            <Text style={styles.blockTitle}>Важно при изучении</Text>
             <Image
             source={require('../../assets/icons/book.png')}
             style={styles.blockImage}/>
 
+            <Text style={styles.blockTitle}>Лайфхаки</Text>
+
+          </View>
+
+
+          <View style={styles.block}>
+
+            <Image
+            source={require('../../assets/icons/dev.png')}
+            style={[styles.blockImage]}/>
+
+            <Text style={styles.blockTitle}>Разработчики</Text>
+
           </View>
 
         </View>
-
         
       </View>
 
@@ -108,7 +102,7 @@ export default function App({ route, navigation }) {
         </View>
 
 
-        <View style={styles.tab}>
+        <View style={styles.tab} onStartShouldSetResponder={() => navigation.navigate('culture',route.params)}>
           <Image
           source={require('../../assets/icons/history2.png')}
           style={styles.tabImage}/>
@@ -117,8 +111,7 @@ export default function App({ route, navigation }) {
 
       </View>
 
-
-    </View>
+    </SafeAreaView>
 
   );
 
