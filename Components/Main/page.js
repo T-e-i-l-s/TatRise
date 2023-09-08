@@ -6,11 +6,24 @@ import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
+const achiv = ['Новичек', 'Продолжающий', 'Про']
+const plants = [
+  require('../../assets/icons/plant3.png'),
+  require('../../assets/icons/plant2.png'),
+  require('../../assets/icons/plant1.png'),
+]
+let count = 0
+let last = 0
+
+
 export default function App({ route, navigation }) {
 
   const param = route.params
 
   const [progress,setProgress] = useState(param['num'])
+  const [plantImage,setPlantImage] = useState(plants[0])
+  const [lvl,setLevel] = useState(achiv[0])
 
 
   React.useEffect(() => { // Хук загрузки данных при переходе на страницу
@@ -18,7 +31,32 @@ export default function App({ route, navigation }) {
     const focusHandler = navigation.addListener('focus', async () => {
 
       const lvl = await AsyncStorage.getItem('level')
-      setProgress(parseFloat(lvl))
+      await setLevel(achiv[Math.floor(lvl/1)])
+      await setProgress(parseFloat(lvl%1))
+
+
+
+
+      if ( last != parseFloat(lvl%1) ) {
+
+        if ( count == 0) {
+          count = 1
+        }
+
+        setPlantImage(plants[count])
+
+        if ( count < 2 ){
+          count++
+        }
+
+      }
+
+      last = parseFloat(lvl%1)
+
+      if(parseFloat(lvl) % 1 == 0){
+        setProgress(0)
+        AsyncStorage.setItem('level',0)
+      }
 
     });
 
@@ -39,10 +77,16 @@ export default function App({ route, navigation }) {
 
           <View style={styles.infoBlock}>
 
-            <Text style={styles.progressText}>Ты на верном пути!</Text>
+            <Text style={styles.progressText}>{lvl}</Text>
 
             <Progress.Bar progress={progress} width={null} height={15} color='#224d44' style={styles.progress} />
 
+          </View>
+
+          <View style={styles.plantBlock}>
+            <Image
+            source={plantImage}
+            style={styles.plant}/>
           </View>
 
         </View>

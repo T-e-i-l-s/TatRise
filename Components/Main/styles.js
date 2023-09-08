@@ -40,8 +40,12 @@ export default StyleSheet.create({
 
   progressBlock: {
 
-    alignItems: 'flex-start',
-    justifyContent: 'center',
+    flexDirection: 'row',
+
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+
+    backgroundColor: '#f5fffd',
 
     width: '100%',
 
@@ -103,6 +107,25 @@ export default StyleSheet.create({
     fontWeight: '400',
 
     marginTop: 10
+
+  },
+
+
+  plantBlock: {
+    
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+
+    height: '100%',
+    width: '20%',
+
+  },
+
+
+  plant: {
+
+    height: 45,
+    width: 45,
 
   },
 
