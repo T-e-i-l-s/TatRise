@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Image, Text, View, FlatList } from 'react-native';
+import { Image, Text, View, FlatList, Linking } from 'react-native';
 import styles from './styles'
 import * as Progress from 'react-native-progress';
 import React, { useState } from 'react';
@@ -13,12 +13,14 @@ const facts = [
   ['Уважение к старшим','Глава семьи у татар – \nэто самый старший мужчина -Бабай и после него – \nсамая старшая женщина – как правило его \nсупруга Абыстай.'],
 ]
 
+
 const links = [
-  ['Тут ссылка', 'google.com', require('../../assets/links/video.png')],
-  ['Тут ссылка', 'google.com', require('../../assets/links/video.png')],
-  ['Тут ссылка', 'google.com', require('../../assets/links/video.png')],
-  ['Тут ссылка', 'google.com', require('../../assets/links/video.png')],
+  ['Гугл',require('../../assets/links/video.png'),  'https://google.com'],
+  ['Яндекс',require('../../assets/links/video.png'),'https://ya.ru'],
+  ['Ли7',require('../../assets/links/video.png'),   'https://litsey7.com'],
+  ['Ли2',require('../../assets/links/video.png'),   'https://litsey2.ru']
 ]
+
 
 export default function App({ route, navigation }) {
 
@@ -30,8 +32,12 @@ export default function App({ route, navigation }) {
 
       <View style={styles.topBlock}>
 
+
+        <Text style={[styles.superTitle, {marginTop: 15}]}>Факты:</Text>
+
         <View style={{width:'100%'}}>
           <FlatList
+            showsVerticalScrollIndicator={false}
             scrollEnabled={true} 
             horizontal={true} 
             style={styles.factsList} 
@@ -47,23 +53,26 @@ export default function App({ route, navigation }) {
         </View>  
 
 
+        <Text style={styles.superTitle}>Ежедневная подборка:</Text>
+
         <View style={{width:'100%'}}>
           <FlatList
+            showsVerticalScrollIndicator={false}
             scrollEnabled={true} 
             horizontal={true} 
             style={styles.factsList} 
-            data={facts} 
+            data={links} 
             renderItem={({ item }) => (
 
               <View style={styles.linkBlock}>
                 <Image
-                source={item[2]}
+                source={item[1]}
                 style={styles.linkImage}/>
+                <Text style={styles.linkTitle} onPress={() => {Linking.openURL(item[2]);}}>{item[0]}</Text>
               </View>
 
           )}/>
-        </View>  
-
+        </View>
 
       </View>
       

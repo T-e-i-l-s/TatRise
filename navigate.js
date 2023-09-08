@@ -7,6 +7,7 @@ import test from './Components/Test/page'
 import lessonFinish from './Components/LessonFinish/page'
 import anki from './Components/Anki/page'
 import facts from './Components/Facts/page'
+import developers from './Components/Developers/page'
 
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
@@ -64,6 +65,12 @@ export default function Navigate () {
       <Stack.Screen
         name="facts"
         component={ facts }
+        options={ { headerShown: false, animationTypeForReplace: 'pop' } }
+        initialParams={{'levels': [0,0,0,0]}}
+      />
+      <Stack.Screen
+        name="developers"
+        component={ developers }
         options={ { headerShown: false, animationTypeForReplace: 'pop' } }
         initialParams={{'levels': [0,0,0,0]}}
       />

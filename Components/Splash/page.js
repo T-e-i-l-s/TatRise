@@ -9,6 +9,7 @@ export default function App({ navigation }) {
 
   async function readData () {
 
+    await AsyncStorage.setItem('level', 0)
     await AsyncStorage.setItem('part1', 0)
     await AsyncStorage.setItem('part2', 0)
     await AsyncStorage.setItem('part3', 0)

@@ -4,12 +4,28 @@ import styles from './styles'
 import * as Progress from 'react-native-progress';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App({ route, navigation }) {
 
   const param = route.params
 
   const [progress,setProgress] = useState(param['num'])
+
+
+  React.useEffect(() => { // Хук загрузки данных при переходе на страницу
+
+    const focusHandler = navigation.addListener('focus', async () => {
+
+      const lvl = await AsyncStorage.getItem('level')
+      setProgress(parseFloat(lvl))
+
+    });
+
+    return focusHandler;
+
+  }, [navigation]);
+
 
   return (
 
@@ -77,7 +93,7 @@ export default function App({ route, navigation }) {
           </View>
 
 
-          <View style={styles.block}>
+          <View style={styles.block} onStartShouldSetResponder={() => navigation.navigate('developers',route.params)}>
 
             <Image
             source={require('../../assets/icons/dev.png')}

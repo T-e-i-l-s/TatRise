@@ -38,6 +38,18 @@ export default StyleSheet.create({
   },
 
 
+  superTitle: {
+
+    width: '90%',
+    color: '#224d44',
+    textAlign: 'left',
+    fontSize: 25,
+    fontWeight: '500',
+
+  },
+
+
+
   factsList: {
 
     padding: 15
@@ -76,6 +88,54 @@ export default StyleSheet.create({
     textAlign: 'left',
     fontSize: 16,
     fontWeight: '400',
+
+  },
+
+
+  linkBlock: {
+
+    width: 300,
+
+    justifyContent: 'center',
+
+    marginRight: 15,
+
+  },
+
+
+  linkImage: {
+
+    height: 150,
+    
+    width: '100%',
+
+    borderTopEndRadius: 20,
+    borderTopStartRadius: 20,
+
+  },
+
+
+  linkTitle: {
+
+    backgroundColor: '#f5fffd',
+
+    color: '#224d44',
+    textAlign: 'left',
+    fontSize: 20,
+    fontWeight: '500',
+
+    borderBottomEndRadius: 20,
+    borderBottomStartRadius: 20,
+
+    paddingVertical: 10,
+    paddingLeft: 15
+
+  },
+
+  tabImage: {
+
+    height: 35,
+    width: 35
 
   },
 

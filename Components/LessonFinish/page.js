@@ -11,6 +11,7 @@ export default function App({ route, navigation }) {
   const [title,setTitle] = useState('Поздравляю! Вы прошли урок!')
   const [description,setDescription] = useState('Каждый урок - это очередной шаг к своему родному языку')
   const [buttons,setButtons] = useState(['На главную'])
+
   
   return (
 
