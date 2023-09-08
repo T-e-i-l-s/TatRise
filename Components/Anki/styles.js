@@ -93,6 +93,9 @@ export default StyleSheet.create({
 
 
   button1: {
+
+    alignItems: 'center',
+    justifyContent: 'center',
     
     width: '50%',
 
@@ -108,6 +111,9 @@ export default StyleSheet.create({
 
 
   button2: {
+
+    alignItems: 'center',
+    justifyContent: 'center',
     
     width: '50%',
 
@@ -121,6 +127,14 @@ export default StyleSheet.create({
     fontSize: 25,
     fontWeight: '500',
 
-  }
+  },
+
+
+  thumb: {
+
+    height: 30,
+    width: 30,
+
+  },
 
 });

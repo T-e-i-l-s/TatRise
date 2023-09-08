@@ -39,8 +39,6 @@ export default StyleSheet.create({
 
   factsList: {
 
-    padding: 15,
-
     width: '100%',
 
   },

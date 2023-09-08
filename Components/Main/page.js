@@ -35,8 +35,6 @@ export default function App({ route, navigation }) {
       await setProgress(parseFloat(lvl%1))
 
 
-
-
       if ( last != parseFloat(lvl%1) ) {
 
         if ( count == 0) {

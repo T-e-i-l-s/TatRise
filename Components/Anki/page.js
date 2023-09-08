@@ -3,6 +3,7 @@ import { Image, Text, TouchableHighlight, View, FlatList } from 'react-native';
 import styles from './styles'
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const arr = [
@@ -77,8 +78,19 @@ export default function App({ route, navigation }) {
 
       <View style={styles.bottomBar}>
         <View style={{width: '100%', backgroundColor: '#3b7a6d', flexDirection: 'row'}}>
-          <Text style={styles.button1} onPress={next}>👎</Text>
-          <Text style={styles.button2} onPress={next}>👍</Text>
+
+          <TouchableHighlight style={styles.button1} underlayColor={'rgba(255, 0, 255,0)'} onPress={() => next()}>
+            <Image
+              source={require('../../assets/icons/thumb2.png')}
+              style={styles.thumb}/>
+          </TouchableHighlight>
+ 
+          <TouchableHighlight style={styles.button2} underlayColor={'rgba(255, 0, 255,0)'} onPress={() => {next();  AsyncStorage.setItem('level', route.params['num'] + 0.01)}}>
+            <Image
+              source={require('../../assets/icons/thumb1.png')}
+              style={styles.thumb}/>
+          </TouchableHighlight>
+
         </View>
       </View>
 
