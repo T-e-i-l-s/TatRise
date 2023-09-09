@@ -1,15 +1,18 @@
-import { StatusBar } from 'expo-status-bar';
-import { FlatList, Text, View } from 'react-native';
+// Импортируем библиотеки и модули
+import { StatusBar } from 'expo-status-bar'
+import { FlatList, Text, View } from 'react-native'
 import styles from './styles'
-import * as Progress from 'react-native-progress';
-import { useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import * as Progress from 'react-native-progress'
+import { useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
+ы
 let flag = false
 let result = 0
 let num = 0
 let arr = []
+
 
 export default function App({ navigation }) {
 
@@ -19,21 +22,8 @@ export default function App({ navigation }) {
   const [page,setPage] = useState(0)
   const [progress,setProgress] = useState(0)
 
-
-  const toMain = () => {
-
-    navigation.navigate('main')
-
-  }
-
-
-  const toStart = () => {
-
-    navigation.navigate('start')
-
-  }
-
   
+  // Задания для распределительного теста
   const tasks = [
       
       {'task': 'Для начала пройдем тест', 'variants': ['Хорошо'], 'ans': 'Хорошо'},
@@ -53,6 +43,7 @@ export default function App({ navigation }) {
   ]
 
 
+  // Проверка ответа
   async function checkAns (e) {
 
     if ( e === ans && variants.length > 1 ) {
@@ -64,22 +55,25 @@ export default function App({ navigation }) {
   }
 
 
+  // Сменяем текущее задание
   async function nextTask () {
 
-    setProgress(page/tasks.length)
+    setProgress(page/tasks.length) // Устанавливаем значение прогресс бара
 
-    if ( page >= tasks.length ) {
+    
+    if ( page >= tasks.length ) { // Завершаем тест
 
       setTimeout(() => {
         AsyncStorage.setItem('part' + num, Math.floor(result/3*12))
+        AsyncStorage.setItem('level', '0')
         arr.push(Math.floor(result/3*12))
         navigation.navigate('main', {'num': 0, 'levels': arr})
-        AsyncStorage.setItem('level', '0')
       },500)
       return
 
     }
 
+    // Меняем задание
     setPage(page+1)
     const data = tasks[page]
 

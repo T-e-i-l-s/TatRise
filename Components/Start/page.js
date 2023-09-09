@@ -1,11 +1,13 @@
-import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
+// Импортируем библиотеки и модули
+import { StatusBar } from 'expo-status-bar'
+import { Text, View } from 'react-native'
 import styles from './styles'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 
 export default function App({ navigation }) {
 
-  const toMain = () => {
+  const toMain = () => { // Для начавших с нуля
 
     AsyncStorage.setItem('part1',0)
     AsyncStorage.setItem('part2',0)
@@ -16,7 +18,7 @@ export default function App({ navigation }) {
   }
 
 
-  const toTest = () => {
+  const toTest = () => { // Для продолжающих
 
     navigation.navigate('test')
 

@@ -1,12 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import { Image, Text, TouchableHighlight, View, FlatList } from 'react-native';
+// Импортируем бибилиотеки и модули
+import { StatusBar } from 'expo-status-bar'
+import { Image, Text, TouchableHighlight, View } from 'react-native'
 import styles from './styles'
-import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
-const arr = [
+// Слова на карточках
+const words = [
   ['Саумысыз!', 'Здравствуйте! (Здоровы ли вы)'],
   ['Ни хәл?', 'Как дела?'],
   ['Хуш!', 'Пока! (Прощай)'],
@@ -14,36 +16,45 @@ const arr = [
   ['Кил монда', 'Иди сюда'],
 ]
 
-let i = 1
+
+let i = 1 // Номер открытой карточки
+
 
 export default function App({ route, navigation }) {
 
-  const [anki,setAnki] = useState(arr[0])
-  const [word,setWord] = useState(arr[0][0])
-  const [colors,setColors] = useState(['#edfffc','#224d44'])
+  const [anki,setAnki] = useState(words[0]) // Данные о карточке
+  const [word,setWord] = useState(words[0][0]) // Слово на карточке
+  const [colors,setColors] = useState(['#edfffc','#224d44']) // Цвета карты
 
+
+  // Функция смены карты
   async function next () {
 
-    await setAnki(arr[i%arr.length])
-    await setWord(arr[i%arr.length][0])
+    await setAnki(words[i%arr.length])
+    await setWord(words[i%arr.length][0])
     setColors(['#edfffc','#224d44'])
     i++
 
   }
 
+
+  // Функция поворота карты
   async function turnOver () {
 
     if ( word == anki[0] ) {
+
       setWord(anki[1])
-      setColors(['#edfffc','#224d44'])
+      setColors(['#e8fcf4','#224d44'])
+
     } else {
+
       setWord(anki[0])
       setColors(['#edfffc','#224d44'])
+
     }
 
 
   }
-
 
 
   return (

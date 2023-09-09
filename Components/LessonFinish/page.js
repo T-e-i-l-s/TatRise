@@ -1,9 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
-import { Image, Text, TouchableHighlight, View, FlatList } from 'react-native';
+// Импотрируем библиотеки и модули
+import { StatusBar } from 'expo-status-bar'
+import { Image, Text, TouchableHighlight, View, FlatList } from 'react-native'
 import styles from './styles'
-import * as Progress from 'react-native-progress';
-import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState } from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 
 export default function App({ route, navigation }) {

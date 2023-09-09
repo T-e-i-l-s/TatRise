@@ -37,7 +37,7 @@ export default StyleSheet.create({
   },
 
 
-  factsList: {
+  developersBlock: {
 
     padding: 15,
 
@@ -46,13 +46,13 @@ export default StyleSheet.create({
   },
 
 
-  factBlock: {
+  devBlock: {
 
     justifyContent: 'center',
 
     width: '100%',
 
-    marginBottom: 20,
+    marginBottom: 10,
     padding: 20,
 
     borderRadius: 20,

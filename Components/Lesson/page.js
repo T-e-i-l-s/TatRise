@@ -1,71 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import { Image, Text, TouchableHighlight, View, FlatList } from 'react-native';
+// Импотрируем библиотеки и модули
+import { StatusBar } from 'expo-status-bar'
+import { Image, Text, TouchableHighlight, View, FlatList } from 'react-native'
 import styles from './styles'
-import * as Progress from 'react-native-progress';
-import React, { useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import * as Progress from 'react-native-progress'
+import React, { useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import {граматика, фонетика, слЗапас} from './lessons' // Импортируем метадические материалы
 
-let inds = [0,0,0]
 
-const граматика = [
-  ['Граматика лвл1', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['Граматика лвл2', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['Граматика лвл3', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['Граматика лвл4', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['Граматика лвл5', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['Граматика лвл6', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['Граматика лвл5', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['Граматика лвл6', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-]
+let inds = [0,0,0] // Массив уровней(граматика, фонетика, сл.запас)
+let i = 0 // Прогресс прохождения урока
 
-const фонетика = [
-  ['Фонетика лвл1', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['Фонетика лвл2', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['Фонетика лвл3', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['Фонетика лвл4', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['Фонетика лвл5', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['Фонетика лвл6', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['Фонетика лвл5', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['Фонетика лвл6', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-]
-
-const слЗапас = [
-  ['СлЗапас лвл1', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['СлЗапас лвл2', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['СлЗапас лвл3', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['СлЗапас лвл4', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['СлЗапас лвл5', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['СлЗапас лвл5', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['СлЗапас лвл5', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-  ['СлЗапас лвл5', 'Тут инфа', ['Понятно']],
-  ['Вопрос', '', ['Верно', 'Неверно']],
-]
-
-let i = 0
 
 export default function App({ route, navigation }) {
 
@@ -74,7 +20,8 @@ export default function App({ route, navigation }) {
   const [buttons,setButtons] = useState([])
   const [progress,setProgress] = useState(0)
 
-  const param = route.params
+
+  const param = route.params // Данные, переданные с другой страницы
 
 
   React.useEffect(() => { // Хук загрузки данных при переходе на страницу
@@ -92,6 +39,7 @@ export default function App({ route, navigation }) {
   }, [navigation]);
 
 
+  // Функция начала урока (Открытие первого задания и тп)
   async function begin () {
 
     const lvl = param['levels']
@@ -113,47 +61,79 @@ export default function App({ route, navigation }) {
   }
 
 
+  // Функция завершения урока (Открытие первого задания и тп)
+  async function end () {
+
+    setProgress(1)
+  
+    const res = [0,
+    inds[0],
+    inds[1],
+    inds[2]]
+  
+    AsyncStorage.setItem('level', param['num'] + 0.2)
+    AsyncStorage.setItem('part1', res[1])
+    AsyncStorage.setItem('part2', res[2])
+    AsyncStorage.setItem('part3', res[3])
+  
+    setTimeout(() => {
+      navigation.navigate('lessonFinish',{'levels':res, 'num': param['num'] + 0.2})
+    },500)
+
+  }
+
+
+  // Функция смены задания
   async function nextPage () {
 
+    // Сохранение прогресса
     if ( i-1 < 2 ) {
+
       inds[0] += 1
-    }else if ( i-1 < 4 ) {
+
+    } else if ( i-1 < 4 ) {
+
       inds[1] += 1
-    }else{
+
+    } else {
+
       inds[2] += 1
+       
     }
 
+
+    // Завершаем урок(если надо)
     if ( i == 6 ) {
-      setProgress(1)
-      const res = [0,
-      inds[0],
-      inds[1],
-      inds[2]]
-      AsyncStorage.setItem('level', param['num'] + 0.2)
-      AsyncStorage.setItem('part1', res[1])
-      AsyncStorage.setItem('part2', res[2])
-      AsyncStorage.setItem('part3', res[3])
-      setTimeout(() => {
-        navigation.navigate('lessonFinish',{'levels':res, 'num': param['num'] + 0.2})
-      },500)
+
+      end()
+
       return
+
     }
 
 
     let arr = []
     let ind = 0
 
+    // Переход к другому блоку
     if ( i < 2 ) {
+
       arr = граматика
       ind = inds[0]
-    }else if ( i < 4 ) {
+
+    } else if ( i < 4 ) {
+
       arr = фонетика
       ind = inds[1]
+
     } else {
+
       arr = слЗапас
       ind = inds[2]
+
     }
 
+    // Прописываем вопрос, описание и ответы
     const data = arr[ind]
     setTitle(data[0])
     setDescription(data[1])
@@ -161,6 +141,7 @@ export default function App({ route, navigation }) {
 
     i++
 
+    // Передаем значение в прогрес бар
     setProgress(i/7)
 
   }

@@ -1,41 +1,51 @@
-import { StatusBar } from 'expo-status-bar';
-import { Image, Text, View, ScrollView } from 'react-native';
+// Импотрируем библиотеки и модули
+import { StatusBar } from 'expo-status-bar'
+import { Image, Text, View } from 'react-native'
 import styles from './styles'
-import * as Progress from 'react-native-progress';
-import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Progress from 'react-native-progress'
+import React, { useState } from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
-const achiv = ['Новичек', 'Продолжающий', 'Про']
+const achiv = ['Новичек', 'Продолжающий', 'Про'] // Уровни прокачки
+
+
+// Все изображения растений
 const plants = [
   require('../../assets/icons/plant3.png'),
   require('../../assets/icons/plant2.png'),
   require('../../assets/icons/plant1.png'),
 ]
+
+
+// допПеременные
 let count = 0
 let last = 0
 
 
 export default function App({ route, navigation }) {
 
-  const param = route.params
-
   const [progress,setProgress] = useState(param['num'])
   const [plantImage,setPlantImage] = useState(plants[0])
   const [lvl,setLevel] = useState(achiv[0])
+
+  const param = route.params // Данные, переданные с другой страницы
 
 
   React.useEffect(() => { // Хук загрузки данных при переходе на страницу
 
     const focusHandler = navigation.addListener('focus', async () => {
 
+      // Загружаем и обрабатываем уровень продвижения для верхнего блока
       const lvl = await AsyncStorage.getItem('level')
       await setLevel(achiv[Math.floor(lvl/1)])
       await setProgress(parseFloat(lvl%1))
 
 
-      if ( last != parseFloat(lvl%1) ) {
+      if ( last != parseFloat(lvl%1) ) { // Был переход после прохождения урока или нет
+
+        // Обновляем растения
 
         if ( count == 0) {
           count = 1
@@ -49,11 +59,16 @@ export default function App({ route, navigation }) {
 
       }
 
+
       last = parseFloat(lvl%1)
 
-      if(parseFloat(lvl) % 1 == 0){
+
+      // Проверяем переполнение прогресс бара
+      if ( parseFloat(lvl) % 1 == 0 ) {
+
         setProgress(0)
         AsyncStorage.setItem('level',0)
+        
       }
 
     });

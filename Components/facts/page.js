@@ -1,10 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
-import { Image, Text, TouchableHighlight, View, FlatList } from 'react-native';
+// Импотрируем библиотеки и модули
+import { StatusBar } from 'expo-status-bar'
+import { Image, Text, TouchableHighlight, View, FlatList } from 'react-native'
 import styles from './styles'
-import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 
+// Факты
 const facts = [
   ['Поддержка родных', 'Татары чтобы выжить в тяжелые времена, \nвремена преследований и геноцида – \nвсегда помогали родным чем могли \nи постоянно поддерживали связь.'],
   ['Эмэ','Древний татарский обычай взаимопомощи \nво время начала крупных работ по \nстроительству и ремонту.\n Совместная работа завершается общей \nтрапезой с угощениями и гуляниями.'],
@@ -14,7 +16,6 @@ const facts = [
 
 
 export default function App({ route, navigation }) {
-
 
   return (
 

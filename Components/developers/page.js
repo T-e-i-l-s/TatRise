@@ -1,11 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
-import { Image, Text, TouchableHighlight, View, FlatList } from 'react-native';
+// Импортируем библиотеки и  модули
+import { StatusBar } from 'expo-status-bar'
+import { Image, Text, TouchableHighlight, View, FlatList } from 'react-native'
 import styles from './styles'
-import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState } from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 
-const facts = [
+const developers = [
   ['Мустафин Карим'],
   ['Пимурзин Рустам'],
   ['Леухин Алексей'],
@@ -14,7 +15,6 @@ const facts = [
 
 
 export default function App({ route, navigation }) {
-
 
   return (
 
@@ -36,11 +36,11 @@ export default function App({ route, navigation }) {
       <View style={{width:'90%'}}>
         <FlatList
           scrollEnabled={true} 
-          style={styles.factsList} 
-          data={facts} 
+          style={styles.developersList} 
+          data={developers} 
           renderItem={({ item }) => (
 
-            <View style={styles.factBlock}>
+            <View style={styles.devBlock}>
               <Text style={styles.title}>{item[0]}</Text>
               <Text style={styles.text}>{item[1]}</Text>
             </View>

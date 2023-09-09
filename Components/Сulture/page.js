@@ -1,18 +1,18 @@
+// Импортируем библиотеки и модули
 import { StatusBar } from 'expo-status-bar';
-import { Image, Text, View, FlatList, Linking } from 'react-native';
+import { Image, Text, View, FlatList, Linking } from 'react-native'
 import styles from './styles'
-import * as Progress from 'react-native-progress';
-import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 
+// Факты и ежедневная подборка
 const facts = [
   ['Поддержка родных', 'Татары чтобы выжить в тяжелые времена, \nвремена преследований и геноцида – \nвсегда помогали родным чем могли \nи постоянно поддерживали связь.'],
   ['Эмэ','Древний татарский обычай взаимопомощи \nво время начала крупных работ по \nстроительству и ремонту.\n Совместная работа завершается общей \nтрапезой с угощениями и гуляниями.'],
   ['Образование','Всегда образование было обязательным \nдля каждого татарина. \nНеобразованные татары подвергались \nнасмешкам и всегда были изгоями \nв татарских общинах.'],
   ['Уважение к старшим','Глава семьи у татар – \nэто самый старший мужчина -Бабай и после него – \nсамая старшая женщина – как правило его \nсупруга Абыстай.'],
 ]
-
 
 const links = [
   ['Гугл',require('../../assets/links/video.png'),  'https://google.com'],
