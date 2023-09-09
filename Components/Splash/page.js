@@ -9,10 +9,10 @@ let flag = false
 
 //Сбрасываем локальную бд(для отладки)
 // AsyncStorage.clear()
-await AsyncStorage.setItem('level', 0)
-await AsyncStorage.setItem('part1', 0)
-await AsyncStorage.setItem('part2', 0)
-await AsyncStorage.setItem('part3', 0)
+// await AsyncStorage.setItem('level', 0)
+// await AsyncStorage.setItem('part1', 0)
+// await AsyncStorage.setItem('part2', 0)
+// await AsyncStorage.setItem('part3', 0)
 
 
 export default function App({ navigation }) {

@@ -13,6 +13,16 @@ export default StyleSheet.create({
 
   },
 
+  
+  background: {
+
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+
+  },
+
 
   header: {
 

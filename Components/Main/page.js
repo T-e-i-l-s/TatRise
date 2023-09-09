@@ -1,6 +1,6 @@
 // Импотрируем библиотеки и модули
 import { StatusBar } from 'expo-status-bar'
-import { Image, Text, View } from 'react-native'
+import { Image, Text, View, ImageBackground } from 'react-native'
 import styles from './styles'
 import * as Progress from 'react-native-progress'
 import React, { useState } from 'react'
@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
-const achiv = ['Новичек', 'Продолжающий', 'Про'] // Уровни прокачки
+const achiv = ['Новичок', 'Продолжающий', 'Про'] // Уровни прокачки
 
 
 // Все изображения растений
@@ -43,7 +43,7 @@ export default function App({ route, navigation }) {
       await setProgress(parseFloat(lvl%1))
 
 
-      if ( last != parseFloat(lvl%1) ) { // Был переход после прохождения урока или нет
+      if ( parseFloat(lvl%1) - last >= 0.2 ) { // Был переход после прохождения урока или нет
 
         // Обновляем растения
 
@@ -84,105 +84,110 @@ export default function App({ route, navigation }) {
 
       <StatusBar style="auto" />
 
-      <View style={styles.topBlock}>
 
-        <View style={styles.progressBlock}>
+      <ImageBackground source={require('../../assets/tat.png')} 
+                            style={styles.background}>
+        <View style={styles.topBlock}>
 
-          <View style={styles.infoBlock}>
+          <View style={styles.progressBlock}>
 
-            <Text style={styles.progressText}>{lvl}</Text>
+            <View style={styles.infoBlock}>
 
-            <Progress.Bar progress={progress} width={null} height={15} color='#224d44' style={styles.progress} />
+              <Text style={styles.progressText}>{lvl}</Text>
+
+              <Progress.Bar progress={progress} width={null} height={15} color='#224d44' style={styles.progress} />
+
+            </View>
+
+            <View style={styles.plantBlock}>
+              <Image
+              source={plantImage}
+              style={styles.plant}/>
+            </View>
 
           </View>
 
-          <View style={styles.plantBlock}>
+
+          <View style={styles.beginLesson} onStartShouldSetResponder={() => navigation.navigate('lesson',route.params)}>
+            <Text style={styles.beginLessonText}>Пройти урок</Text>
+          </View>
+
+
+
+          <View style={styles.row}>
+
+            <View style={styles.block} onStartShouldSetResponder={() => navigation.navigate('anki',route.params)}>
+
+              <Image
+              source={require('../../assets/icons/anki.png')}
+              style={styles.blockImage}/>
+
+              <Text style={styles.blockTitle}>Карточки</Text>
+              
+            </View>
+
+            <View style={styles.block} onStartShouldSetResponder={() => navigation.navigate('lessons',route.params)}>
+
+              <Image
+              source={require('../../assets/icons/more.png')}
+              style={styles.blockImage}/>
+
+              <Text style={styles.blockTitle}>Теория</Text>
+
+            </View>
+
+          </View>
+
+
+
+          <View style={styles.row}>
+
+            <View style={styles.block} onStartShouldSetResponder={() => navigation.navigate('facts',route.params)}>
+
+              <Image
+              source={require('../../assets/icons/book.png')}
+              style={styles.blockImage}/>
+
+              <Text style={styles.blockTitle}>Лайфхаки</Text>
+
+            </View>
+
+
+            <View style={styles.block} onStartShouldSetResponder={() => navigation.navigate('developers',route.params)}>
+
+              <Image
+              source={require('../../assets/icons/dev.png')}
+              style={[styles.blockImage]}/>
+
+              <Text style={styles.blockTitle}>Разработчики</Text>
+
+            </View>
+
+          </View>
+          
+        </View>
+
+
+        <View style={styles.tabBar}>
+
+
+          <View style={styles.tab}>
             <Image
-            source={plantImage}
-            style={styles.plant}/>
+            source={require('../../assets/icons/home.png')}
+            style={styles.tabImage}/>
           </View>
 
-        </View>
 
-
-        <View style={styles.beginLesson} onStartShouldSetResponder={() => navigation.navigate('lesson',route.params)}>
-          <Text style={styles.beginLessonText}>Пройти урок</Text>
-        </View>
-
-
-
-        <View style={styles.row}>
-
-          <View style={styles.block} onStartShouldSetResponder={() => navigation.navigate('anki',route.params)}>
-
+          <View style={styles.tab} onStartShouldSetResponder={() => navigation.navigate('culture',route.params)}>
             <Image
-            source={require('../../assets/icons/anki.png')}
-            style={styles.blockImage}/>
-
-            <Text style={styles.blockTitle}>Карточки</Text>
-            
-          </View>
-
-          <View style={styles.block} onStartShouldSetResponder={() => navigation.navigate('culture',route.params)}>
-
-            <Image
-            source={require('../../assets/icons/history.png')}
-            style={styles.blockImage}/>
-
-            <Text style={styles.blockTitle}>Культура</Text>
-
-          </View>
-
-        </View>
-
-
-
-        <View style={styles.row}>
-
-          <View style={styles.block} onStartShouldSetResponder={() => navigation.navigate('facts',route.params)}>
-
-            <Image
-            source={require('../../assets/icons/book.png')}
-            style={styles.blockImage}/>
-
-            <Text style={styles.blockTitle}>Лайфхаки</Text>
-
+            source={require('../../assets/icons/history2.png')}
+            style={styles.tabImage}/>
           </View>
 
 
-          <View style={styles.block} onStartShouldSetResponder={() => navigation.navigate('developers',route.params)}>
-
-            <Image
-            source={require('../../assets/icons/dev.png')}
-            style={[styles.blockImage]}/>
-
-            <Text style={styles.blockTitle}>Разработчики</Text>
-
-          </View>
-
-        </View>
-        
-      </View>
-
-
-      <View style={styles.tabBar}>
-
-
-        <View style={styles.tab}>
-          <Image
-          source={require('../../assets/icons/home.png')}
-          style={styles.tabImage}/>
         </View>
 
-
-        <View style={styles.tab} onStartShouldSetResponder={() => navigation.navigate('culture',route.params)}>
-          <Image
-          source={require('../../assets/icons/history2.png')}
-          style={styles.tabImage}/>
-        </View>
-
-
-      </View>
+      </ImageBackground>
 
     </SafeAreaView>
 

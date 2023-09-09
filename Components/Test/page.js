@@ -28,17 +28,17 @@ export default function App({ navigation }) {
       
       {'task': 'Для начала пройдем тест', 'variants': ['Хорошо'], 'ans': 'Хорошо'},
 
-      {'task': 'Граматика1', 'variants': ['Верно','Не верно'], 'ans': 'Верно'},
-      {'task': 'Граматика2', 'variants': ['Верно','Не верно'], 'ans': 'Верно'},
-      {'task': 'Граматика3', 'variants': ['Верно','Не верно'], 'ans': 'Верно'},
+      {'task': 'Как вы скажете "Она идет"?', 'variants': ['Ул килә','Алар киләчәк', 'Ул ашый','Не знаю'], 'ans': 'Ул килә'},
+      {'task': 'Как вы скажете "Моя сестра"?', 'variants': ['Минем апам','Апа','Апаым','Не знаю'], 'ans': 'Минем апам'},
+      {'task': 'Выберите вопросительные местоимения', 'variants': ['кем, сарык','кем, ни','нəг, кой','Не знаю'], 'ans': 'Верно'},
       
-      {'task': 'Фонетика1', 'variants': ['Верно','Не верно'], 'ans': 'Верно'},
-      {'task': 'Фонетика2', 'variants': ['Верно','Не верно'], 'ans': 'Верно'},
-      {'task': 'Фонетика3', 'variants': ['Верно','Не верно'], 'ans': 'Верно'},
+      {'task': 'Где ударение в слове "берсекөнгә"?', 'variants': ['берсЕкөнгә','бЕрсекөнгә','берсекөнгӘ','Не знаю'], 'ans': 'берсекөнгӘ'},
+      {'task': 'Какие вы знаете долгие звуки?', 'variants': ['а-ə','о-у','Не знаю'], 'ans': 'Верно'},
+      {'task': 'Вставьте пропуски яз_, йөгер_', 'variants': ['а а','а я','а ә','Не знаю'], 'ans': 'а ә'},
       
-      {'task': 'Словарный запас1', 'variants': ['Верно','Не верно'], 'ans': 'Верно'},
-      {'task': 'Словарный запас2', 'variants': ['Верно','Не верно'], 'ans': 'Верно'},
-      {'task': 'Словарный запас3', 'variants': ['Верно','Не верно'], 'ans': 'Верно'},
+      {'task': 'Переведите слово "Балалар"', 'variants': ['Студенты', 'Дети', 'Взрослые','Не знаю'], 'ans': 'Дети'},
+      {'task': 'Переведите слово "Иртәгә"', 'variants': ['Завтра','Позавчера','Вчера','Не знаю'], 'ans': 'Завтра'},
+      {'task': 'Переведите "алга киткән"', 'variants': ['Спелый','Порыв','Прорыв','Не знаю'], 'ans': 'Верно'},
 
   ]
 
@@ -64,9 +64,10 @@ export default function App({ navigation }) {
     if ( page >= tasks.length ) { // Завершаем тест
 
       setTimeout(() => {
-        AsyncStorage.setItem('part' + num, Math.floor(result/3*12))
+        AsyncStorage.setItem('part' + num, Math.floor(result/3*4) + Math.floor(result/3*4)%2)
         AsyncStorage.setItem('level', '0')
-        arr.push(Math.floor(result/3*12))
+        arr.push(Math.floor(result/3*4) + Math.floor(result/3*4)%2)
+        console.log(arr)
         navigation.navigate('main', {'num': 0, 'levels': arr})
       },500)
       return
@@ -79,8 +80,8 @@ export default function App({ navigation }) {
 
     if ( page % 3 == 1 ) {
 
-      arr.push(result/3)
-      AsyncStorage.setItem('part' + num, Math.floor(result/3*12))
+      arr.push(Math.floor(result/3*4) + Math.floor(result/3*4)%2)
+      AsyncStorage.setItem('part' + num, Math.floor(result/3*4) + Math.floor(result/3*4)%2)
       num++
       result = 0
 

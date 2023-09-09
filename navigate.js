@@ -8,6 +8,8 @@ import lessonFinish from './Components/LessonFinish/page'
 import anki from './Components/Anki/page'
 import facts from './Components/Facts/page'
 import developers from './Components/Developers/page'
+import list from './Components/List/page'
+import lessons from './Components/Lessons/page'
 
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
@@ -52,6 +54,12 @@ export default function Navigate () {
         initialParams={{'levels': [0,0,0,0]}}
       />
       <Stack.Screen
+        name="lessons"
+        component={ lessons }
+        options={ { headerShown: false, animationTypeForReplace: 'pop' } }
+        initialParams={{'title': 'Граматика'}}
+      />
+      <Stack.Screen
         name="lessonFinish"
         component={ lessonFinish }
         options={ { headerShown: false, animationTypeForReplace: 'pop' } }
@@ -73,6 +81,12 @@ export default function Navigate () {
         component={ developers }
         options={ { headerShown: false, animationTypeForReplace: 'pop' } }
         initialParams={{'levels': [0,0,0,0]}}
+      />
+      <Stack.Screen
+        name="list"
+        component={ list }
+        options={ { headerShown: false, animationTypeForReplace: 'pop' } }
+        initialParams={{'title': 'Граматика'}}
       />
     </Stack.Navigator>
   </NavigationContainer>

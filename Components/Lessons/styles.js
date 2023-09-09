@@ -71,17 +71,8 @@ export default StyleSheet.create({
   },
 
 
-  row: {
-
-    flexDirection: 'row',
-    width: '100%'
-
-  },
-
-
   title: {
 
-    width: '80%',
     color: '#224d44',
     textAlign: 'left',
     fontSize: 20,
