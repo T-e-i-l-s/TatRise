@@ -26,12 +26,12 @@ let last = 0
 
 export default function App({ route, navigation }) {
 
+  const param = route.params // Данные, переданные с другой страницы
+
   const [progress,setProgress] = useState(param['num'])
   const [plantImage,setPlantImage] = useState(plants[0])
   const [lvl,setLevel] = useState(achiv[0])
-
-  const param = route.params // Данные, переданные с другой страницы
-
+  
 
   React.useEffect(() => { // Хук загрузки данных при переходе на страницу
 

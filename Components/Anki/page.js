@@ -25,13 +25,14 @@ export default function App({ route, navigation }) {
   const [anki,setAnki] = useState(words[0]) // Данные о карточке
   const [word,setWord] = useState(words[0][0]) // Слово на карточке
   const [colors,setColors] = useState(['#edfffc','#224d44']) // Цвета карты
+  const [count, setCount] = useState(route.params['num'])
 
 
   // Функция смены карты
   async function next () {
 
-    await setAnki(words[i%arr.length])
-    await setWord(words[i%arr.length][0])
+    await setAnki(words[i%words.length])
+    await setWord(words[i%words.length][0])
     setColors(['#edfffc','#224d44'])
     i++
 
@@ -65,7 +66,7 @@ export default function App({ route, navigation }) {
 
       <View style={styles.header}>
 
-        <TouchableHighlight underlayColor={'rgba(255, 0, 255,0)'} onPress={() => navigation.navigate('main',route.params)}>
+        <TouchableHighlight underlayColor={'rgba(255, 0, 255,0)'} onPress={() => navigation.navigate('main',{'num': count, 'levels': route.params['levels']})}>
           <Image
             source={require('../../assets/icons/back.png')}
             style={styles.back}/>
@@ -96,7 +97,10 @@ export default function App({ route, navigation }) {
               style={styles.thumb}/>
           </TouchableHighlight>
  
-          <TouchableHighlight style={styles.button2} underlayColor={'rgba(255, 0, 255,0)'} onPress={() => {next();  AsyncStorage.setItem('level', route.params['num'] + 0.01)}}>
+          <TouchableHighlight style={styles.button2} underlayColor={'rgba(255, 0, 255,0)'} onPress={() => {
+              next();
+              setCount(count+0.01)
+              AsyncStorage.setItem('level', count)}}>
             <Image
               source={require('../../assets/icons/thumb1.png')}
               style={styles.thumb}/>

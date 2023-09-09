@@ -7,7 +7,7 @@ import { useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-ы
+
 let flag = false
 let result = 0
 let num = 0
