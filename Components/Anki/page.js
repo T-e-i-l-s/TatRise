@@ -8,13 +8,36 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 // Слова на карточках
-let words = [
+const array = [
   ['Саумысыз!', 'Здравствуйте! (Здоровы ли вы)'],
   ['Ни хәл?', 'Как дела?'],
   ['Хуш!', 'Пока! (Прощай)'],
   ['Исәнлектә! Саулыкта!', 'Пожелание здоровья'],
   ['Кил монда', 'Иди сюда'],
+  ['Сау булыгыз! Исән булыгыз!', 'До свидания!'],
+  ['Сәлам әйт!', 'Передавай привет!'],
+  ['Уңышлар', 'Удачи'],
+  ['Рәхмәт!', 'Спасибо!'],
+  ['Бик зур рәхмәт! Рәхмәт яусын!', 'Большое спасибо!'],
+  ['Исән бул! Сау-сәламәт бул!', 'Пожалуйста!(в ответ на спасибо)'],
+  ['Зинһар', 'Пожалуйста(просьба)'],
+  ['Рәхим ит', 'Пожалуйста(ответ на просьбу)'],
+  ['Гафу итегез!', 'Извините!'],
+  ['Гафу үтенәм', '	Прошу прощения'],
+  ['Ярдәм итә аласыңмы?', 'Можешь помочь?'],
+  ['Борчылмагыз', 'Не беспокойтесь'],
+  ['Хәлләр ничек?', '	Как дела?'],
+  ['Яхшы, рәхмәт!', 'Хорошо, спасибо!'],
+  ['Үзең ничек?', 'Как сам?'],
+  ['Мин дә ярыйсы', 'И у меня неплохо'],
+  ['Барысы да яхшымы?', 'Всё хорошо?'],
+  ['Әйе, барысы да шәп!', 'Да, всё супер!'],
+  ['Миңа ярдәм кирәк.', 'Мне нужна помощь.'],
+  ['Сорыйсы килә иде', 'Всё хотел(а) спросить'],
+  ['Танышырга шатмын!', 'Рад(а) знакомству!'],
+  ['Тагын килегез!', 'Приходите ещё!'],
 ]
+let words = array
 
 
 let nums = {}
@@ -92,24 +115,17 @@ export default function App({ route, navigation }) {
   // Функция поворота карты
   async function ans (e) {
 
-    console.log(words)
-
     if ( e == 'OK' ) {
 
       if ( words.length > 3 ) {
         words.splice(words.indexOf(anki),1)
       } else {
-        words = [
-          ['Саумысыз!', 'Здравствуйте! (Здоровы ли вы)'],
-          ['Ни хәл?', 'Как дела?'],
-          ['Хуш!', 'Пока! (Прощай)'],
-          ['Исәнлектә! Саулыкта!', 'Пожелание здоровья'],
-          ['Кил монда', 'Иди сюда']]
+        words = array
       }
 
     } else {
 
-      if ( nums[anki[0]] == undefined | nums[anki[0] == null] ) {
+      if ( nums[anki[0]] == undefined || nums[anki[0] == null] ) {
         words.push( anki )
         nums[ anki[0] ] = 1
       }
@@ -188,9 +204,12 @@ export default function App({ route, navigation }) {
               await ans('BAD')
               await next()
             }}>
-              <Image
-                source={require('../../assets/icons/thumb2.png')}
-                style={styles.thumb}/>
+              <View style={styles.but}>
+                <Image
+                  source={require('../../assets/icons/thumb2.png')}
+                  style={styles.thumb}/>
+                <Text style={styles.butDescrip}>Я не знаю</Text>
+              </View>
             </TouchableHighlight>
   
             <TouchableHighlight style={styles.button2} underlayColor={'rgba(255, 0, 255,0)'} onPress={async () => {
@@ -198,9 +217,12 @@ export default function App({ route, navigation }) {
                 await next();
                 await setCount(count+0.01)
                 AsyncStorage.setItem('level', count)}}>
-              <Image
-                source={require('../../assets/icons/thumb1.png')}
-                style={styles.thumb}/>
+                <View style={styles.but}>
+                  <Image
+                    source={require('../../assets/icons/thumb1.png')}
+                    style={styles.thumb}/>
+                  <Text style={styles.butDescrip}>Я знаю</Text>
+                </View>
             </TouchableHighlight>
 
           </View>

@@ -13,8 +13,21 @@ const developers = [
   ['Пимурзин Руслан','Дизайнер','https://t.me/Dropio_1966'],
 ]
 
+let flag = false
+
 
 export default function App({ route, navigation }) {
+
+  const [open, setOpen] = useState(false)
+
+  if ( !flag ) {
+
+    flag = true
+    setTimeout(() => {
+      setOpen(true)
+    },200)
+
+  }
 
   return (
 
@@ -48,7 +61,7 @@ export default function App({ route, navigation }) {
                 <View style={styles.row}>
                   <Text style={styles.title}>{item[0]}</Text>
 
-                  <TouchableHighlight style={{width: '20%', alignItems: 'center'}} underlayColor={'rgba(255, 0, 255,0)'} onPress={() => Linking.openURL(item[2])}>
+                  <TouchableHighlight style={{width: '20%', alignItems: 'center'}} underlayColor={'rgba(255, 0, 255,0)'} onPress={() => {if(open){Linking.openURL(item[2])}}}>
                     <Image
                       source={require('../../assets/icons/tg.png')}
                       style={styles.back}/>

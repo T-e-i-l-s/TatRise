@@ -23,6 +23,12 @@ const links = [
   ['Татар.Бу Хакатон',require('../../assets/links/hakaton.png'),   'http://selet.biz/news/startuet-proekt-tatar-bu-khakaton/']
 ]
 
+function shuffle(array) {
+  array.sort(() => Math.random() - 0.5);
+}
+
+shuffle(links)
+shuffle(facts)
 
 export default function App({ route, navigation }) {
 

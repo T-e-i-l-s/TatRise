@@ -140,6 +140,28 @@ export default StyleSheet.create({
   },
 
 
+  but: {
+
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    height: '100%',
+    width: '100%'
+
+
+  },
+
+
+  butDescrip: {
+
+    textAlign: 'center',
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: '500',
+
+  },
+
+
   thumb: {
 
     height: 30,

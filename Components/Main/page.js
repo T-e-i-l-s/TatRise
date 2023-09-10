@@ -31,12 +31,14 @@ export default function App({ route, navigation }) {
   const [progress,setProgress] = useState(param['num'])
   const [plantImage,setPlantImage] = useState(plants[0])
   const [lvl,setLevel] = useState(achiv[0])
+  const [resetCount,setReset] = useState(0)
   
 
   React.useEffect(() => { // Хук загрузки данных при переходе на страницу
 
     const focusHandler = navigation.addListener('focus', async () => {
 
+      setReset(0)
       // Загружаем и обрабатываем уровень продвижения для верхнего блока
       const lvl = await AsyncStorage.getItem('level')
       await setLevel(achiv[Math.floor(lvl/1)])
@@ -108,7 +110,13 @@ export default function App({ route, navigation }) {
           </View>
 
 
-          <View style={styles.beginLesson} onStartShouldSetResponder={() => navigation.navigate('lesson',route.params)}>
+          <View style={styles.beginLesson} onStartShouldSetResponder={async() => {
+            if ( param['levels'][1] > 8 || param['levels'][2] > 8 || param['levels'][3] > 8 ) {
+              await alert('Вы прошли всю методическую программу','', [])
+              return
+            }
+            navigation.navigate('lesson',route.params)
+          }}>
             <Text style={styles.beginLessonText}>Пройти урок</Text>
           </View>
 
@@ -153,7 +161,7 @@ export default function App({ route, navigation }) {
             </View>
 
 
-            <View style={styles.block} onStartShouldSetResponder={() => navigation.navigate('developers',route.params)}>
+            <View style={styles.block} onStartShouldSetResponder={() => {navigation.navigate('developers',route.params)}}>
 
               <Image
               source={require('../../assets/icons/dev.png')}
@@ -171,14 +179,21 @@ export default function App({ route, navigation }) {
         <View style={styles.tabBar}>
 
 
-          <View style={styles.tab}>
+          <View style={styles.tab} onStartShouldSetResponder={() => {
+            setReset(resetCount + 1)
+            if ( resetCount == 10 ) {
+              AsyncStorage.clear()
+              return
+            }
+          }}>
             <Image
             source={require('../../assets/icons/home.png')}
             style={styles.tabImage}/>
           </View>
 
 
-          <View style={styles.tab} onStartShouldSetResponder={() => navigation.navigate('culture',route.params)}>
+          <View style={styles.tab} onStartShouldSetResponder={() => {
+            navigation.navigate('culture',route.params)}}>
             <Image
             source={require('../../assets/icons/history2.png')}
             style={styles.tabImage}/>
