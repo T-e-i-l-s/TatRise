@@ -1,9 +1,10 @@
 // Импортируем библиотеки и  модули
 import { StatusBar } from 'expo-status-bar'
-import { Image, Text, TouchableHighlight, View, FlatList, ImageBackground, Linking } from 'react-native'
+import { Animated, Image, Text, TouchableHighlight, View, FlatList, ImageBackground, Linking } from 'react-native'
 import styles from './styles'
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Culture from '../Сulture/page'
 
 
 const developers = [
@@ -18,7 +19,58 @@ let flag = false
 
 export default function App({ route, navigation }) {
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false)  
+  const [f, setF] = useState(false)  
+  
+  const translateX = useRef(
+    [
+    new Animated.Value(300),
+    new Animated.Value(450),
+    new Animated.Value(600),
+    new Animated.Value(750),
+    ]
+  ).current
+  
+  const Opacity = useRef(
+    new Animated.Value(0)
+  ).current
+  
+  React.useEffect(() => { // Хук загрузки данных при переходе на страницу
+
+    
+    const focusHandler = navigation.addListener('focus', async () => {
+
+      Animated.timing(translateX[0], {
+        toValue: 0,
+        duration: 400,
+      }).start()
+      Animated.timing(translateX[1], {
+        toValue: 0,
+        duration: 400,
+      }).start()
+
+      Animated.timing(translateX[2], {
+        toValue: 0,
+        duration: 400,
+      }).start()
+
+      Animated.timing(translateX[3], {
+        toValue: 0,
+        duration: 400,
+      }).start()
+
+      Animated.timing(Opacity,{
+        toValue: 100,
+        duration: 5000,
+      }).start()
+
+
+    });
+
+    return focusHandler;
+
+  }, [navigation]);
+
 
   if ( !flag ) {
 
@@ -28,6 +80,7 @@ export default function App({ route, navigation }) {
     },200)
 
   }
+
 
   return (
 
@@ -39,7 +92,7 @@ export default function App({ route, navigation }) {
       <ImageBackground source={require('../../assets/tat.png')} 
                             style={styles.background}>
 
-        <View style={styles.header}>
+        <Animated.View style={[styles.header,{opacity: Opacity}]}>
 
           <TouchableHighlight underlayColor={'rgba(255, 0, 255,0)'} onPress={() => navigation.navigate('main',route.params)}>
             <Image
@@ -47,7 +100,7 @@ export default function App({ route, navigation }) {
               style={styles.back}/>
           </TouchableHighlight>
 
-        </View>
+        </Animated.View>
 
 
         <View style={{width:'90%'}}>
@@ -55,9 +108,9 @@ export default function App({ route, navigation }) {
             scrollEnabled={true} 
             style={styles.developersList} 
             data={developers} 
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
 
-              <View style={styles.devBlock}>
+              <Animated.View style={[styles.devBlock,{transform: [{translateX: translateX[index]}]}]}>
                 <View style={styles.row}>
                   <Text style={styles.title}>{item[0]}</Text>
 
@@ -69,7 +122,7 @@ export default function App({ route, navigation }) {
 
                 </View>
                 <Text style={styles.text}>{item[1]}</Text>
-              </View>
+              </Animated.View>
 
           )}/>
         </View>  

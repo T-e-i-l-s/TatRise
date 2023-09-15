@@ -15,12 +15,76 @@ export default StyleSheet.create({
 
   
   background: {
+
       width: '100%',
       height: '100%',
       alignItems: 'center',
       justifyContent: 'flex-start',
 
   },
+
+  
+  modalBackground: {
+
+      width: '100%',
+      height: '100%',
+
+      backgroundColor: '#f5fffd',
+
+  },
+
+  
+  modalPlant: {
+    height: 100,
+    width: 100
+  },
+
+  
+  close: {
+    height: 30,
+    width: 30
+  },
+
+
+  row2: {
+
+    flexDirection: 'row',
+
+    width: '100%',
+
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 40,
+
+  },
+
+
+  text: {
+
+    width: '90%',
+
+    color: '#224d44',
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: '400'
+
+  },
+
+
+  header: {
+
+    flexDirection: 'row',
+
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+
+    padding: '5%',
+
+    width: '100%',
+    height: '7%'
+
+  },
+
 
 
   topBlock: {
@@ -56,9 +120,9 @@ export default StyleSheet.create({
 
     backgroundColor: '#f5fffd',
 
-    width: '100%',
+    marginTop: 20,
 
-    marginTop: 20
+    width: '100%'
 
   },
 

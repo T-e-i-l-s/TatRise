@@ -1,9 +1,10 @@
 // Импортируем библиотеки и модули
 import { StatusBar } from 'expo-status-bar';
-import { Image, Text, View, FlatList, Linking, ImageBackground } from 'react-native'
+import { Animated, Image, Text, View, FlatList, Linking, ImageBackground } from 'react-native'
 import styles from './styles'
-import React from 'react'
+import React, {useRef} from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 // Факты и ежедневная подборка
@@ -17,7 +18,7 @@ const facts = [
 ]
 
 const links = [
-  ['Татарсан',require('../../assets/links/tatarstan.png'),  'https://www.youtube.com/watch?v=M1Znixq-fvw&t=55s'],
+  ['Татарстан',require('../../assets/links/tatarstan.png'),  'https://www.youtube.com/watch?v=M1Znixq-fvw&t=55s'],
   ['Наши артисты',require('../../assets/links/show.png'),'https://www.last.fm/ru/tag/tatar/artists'],
   ['Рецепты татарской кухни',require('../../assets/links/eat.png'),   'https://www.russianfood.com/recipes/bytype/?fid=177'],
   ['Татар.Бу Хакатон',require('../../assets/links/hakaton.png'),   'http://selet.biz/news/startuet-proekt-tatar-bu-khakaton/']
@@ -32,6 +33,36 @@ shuffle(facts)
 
 export default function App({ route, navigation }) {
 
+  
+  const translateX = useRef(
+    new Animated.Value(500)
+  ).current
+  
+  const Opacity = useRef(
+    new Animated.Value(0)
+  ).current
+
+
+  React.useEffect(() => { // Хук загрузки данных при переходе на страницу
+
+    const focusHandler = navigation.addListener('focus', async () => {
+
+      Animated.timing(Opacity,{
+        toValue: 100,
+        duration: 12000,
+      }).start()
+
+      Animated.timing(translateX,{
+        toValue: 0,
+        duration: 500,
+      }).start()
+
+    });
+
+    return focusHandler;
+
+  }, [navigation]);
+
   return (
 
     <SafeAreaView style={styles.container}>
@@ -40,7 +71,7 @@ export default function App({ route, navigation }) {
 
       <ImageBackground source={require('../../assets/tat.png')} 
                             style={styles.background}>
-        <View style={styles.topBlock}>
+        <Animated.View style={[styles.topBlock,{transform:[{translateX: translateX}]}]}>
 
 
           <Text style={[styles.superTitle, {marginTop: 15}]}>Факты:</Text>
@@ -54,10 +85,10 @@ export default function App({ route, navigation }) {
               data={facts} 
               renderItem={({ item }) => (
 
-                <View style={styles.factBlock}>
+                <Animated.View style={[styles.factBlock,{opacity: Opacity}]}>
                   <Text style={styles.title}>{item[0]}</Text>
                   <Text style={styles.text}>{item[1]}</Text>
-                </View>
+                </Animated.View>
 
             )}/>
           </View>  
@@ -74,23 +105,43 @@ export default function App({ route, navigation }) {
               data={links} 
               renderItem={({ item }) => (
 
-                <View style={styles.linkBlock}>
+                <Animated.View style={[styles.linkBlock,{opacity: Opacity}]} onStartShouldSetResponder={async () => {
+                  let plants = JSON.parse(await AsyncStorage.getItem('plants'))
+                  let achiv = JSON.parse(await AsyncStorage.getItem('achivs'))
+                  let count = await AsyncStorage.getItem('count')
+                  if ( plants != null ) {
+                    plants.push(require('../../assets/flowers/plant8.png'))
+                    achiv.push('Инет')
+                    count++
+                  }
+                  
+                  AsyncStorage.setItem('plants',  JSON.stringify(plants))
+                  AsyncStorage.setItem('achivs',  JSON.stringify(achiv))
+                  AsyncStorage.setItem('count',  count)
+                }}>
                   <Image
                   source={item[1]}
                   style={styles.linkImage}/>
                   <Text style={styles.linkTitle} onPress={() => {Linking.openURL(item[2]);}}>{item[0]}</Text>
-                </View>
+                </Animated.View>
 
             )}/>
           </View>
 
-        </View>
+        </Animated.View>
         
 
         <View style={styles.tabBar}>
 
 
-          <View style={styles.tab} onStartShouldSetResponder={() => navigation.navigate('main',route.params)}>
+          <View style={styles.tab} onStartShouldSetResponder={ async () => {
+            await Animated.timing(translateX,{
+              toValue: 500,
+              duration: 500,
+            }).start()
+            setTimeout(() => {
+              navigation.navigate('main',route.params)
+            },300)}}>
             <Image
             source={require('../../assets/icons/home2.png')}
             style={styles.tabImage}/>

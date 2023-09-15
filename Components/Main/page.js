@@ -1,42 +1,93 @@
 // Импотрируем библиотеки и модули
 import { StatusBar } from 'expo-status-bar'
-import { Image, Text, View, ImageBackground } from 'react-native'
+import { Animated, Image, Text, View, ImageBackground, Modal, TouchableHighlight, FlatList } from 'react-native'
 import styles from './styles'
 import * as Progress from 'react-native-progress'
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
 
 const achiv = ['Новичок', 'Продолжающий', 'Про'] // Уровни прокачки
 
 
 // Все изображения растений
-const plants = [
-  require('../../assets/icons/plant3.png'),
-  require('../../assets/icons/plant2.png'),
-  require('../../assets/icons/plant1.png'),
+let plants = [
+  require('../../assets/flowers/plant1.png'),
+]
+let achivs = [
+  'Прогресс1',
 ]
 
 
+// AsyncStorage.setItem('plants',  JSON.stringify(plants))
+// AsyncStorage.setItem('achivs',  JSON.stringify(achivs))
+
+
 // допПеременные
-let count = 0
+let count = 1
 let last = 0
+let flag = false
 
 
 export default function App({ route, navigation }) {
 
   const param = route.params // Данные, переданные с другой страницы
 
+  const Opacity = useRef(
+    new Animated.Value(0)
+  ).current
+  const translateX = useRef(
+    new Animated.Value(0)
+  ).current
+
   const [progress,setProgress] = useState(param['num'])
   const [plantImage,setPlantImage] = useState(plants[0])
   const [lvl,setLevel] = useState(achiv[0])
   const [resetCount,setReset] = useState(0)
+  const [modal,setModal] = useState(false)
   
 
   React.useEffect(() => { // Хук загрузки данных при переходе на страницу
 
     const focusHandler = navigation.addListener('focus', async () => {
+
+      if ( !flag ) {
+
+        count = await AsyncStorage.getItem('count')
+  
+        if ( count == null ) {
+          count = 1
+        } else {
+          count = count - 1
+        }
+  
+      }
+
+      let res = JSON.parse(await AsyncStorage.getItem('plants'))
+
+      if ( res != null ){
+        plants = res
+        setPlantImage(plants[plants.length-1])
+      }
+
+      res = JSON.parse(await AsyncStorage.getItem('achivs'))
+
+      if ( res != null ){
+        achivs = res
+      }
+
+      Opacity.setValue(0)
+
+      Animated.timing(Opacity,{
+        toValue: 100,
+        duration: 13000,
+      }).start()
+      
+      Animated.timing(translateX,{
+        toValue: 0,
+        duration: 500,
+      }).start()
+
 
       setReset(0)
       // Загружаем и обрабатываем уровень продвижения для верхнего блока
@@ -45,21 +96,34 @@ export default function App({ route, navigation }) {
       await setProgress(parseFloat(lvl%1))
 
 
-      if ( parseFloat(lvl%1) - last >= 0.2 ) { // Был переход после прохождения урока или нет
+      if ( parseFloat(lvl%1) - last >= 0.1 ) { // Был переход после прохождения урока или нет
 
         // Обновляем растения
 
-        if ( count == 0) {
-          count = 1
-        }
+        // if ( count == 0) {
+        //   count = 1
+        // }
 
-        setPlantImage(plants[count])
-
-        if ( count < 2 ){
+        if ( count < 7 ){
           count++
+          console.log(count)
+          AsyncStorage.setItem('count',  count)
         }
+
+        if (flag) {
+          plants.push(require('../../assets/flowers/plant' + (count) + '.png'))
+          achivs.push('Прогресс' + (count))
+  
+          AsyncStorage.setItem('plants',  JSON.stringify(plants))
+          AsyncStorage.setItem('achivs',  JSON.stringify(achivs))
+        }
+
+        setPlantImage(plants[count-1])
 
       }
+
+
+      flag = true
 
 
       last = parseFloat(lvl%1)
@@ -79,7 +143,7 @@ export default function App({ route, navigation }) {
 
   }, [navigation]);
 
-
+  
   return (
 
     <SafeAreaView style={styles.container}>
@@ -89,7 +153,7 @@ export default function App({ route, navigation }) {
 
       <ImageBackground source={require('../../assets/tat.png')} 
                             style={styles.background}>
-        <View style={styles.topBlock}>
+        <Animated.View style={[styles.topBlock,{opacity: Opacity},{transform:[{translateX: translateX}]}]}>
 
           <View style={styles.progressBlock}>
 
@@ -101,7 +165,7 @@ export default function App({ route, navigation }) {
 
             </View>
 
-            <View style={styles.plantBlock}>
+            <View style={styles.plantBlock} onStartShouldSetResponder={() => setModal(true)}>
               <Image
               source={plantImage}
               style={styles.plant}/>
@@ -110,7 +174,8 @@ export default function App({ route, navigation }) {
           </View>
 
 
-          <View style={styles.beginLesson} onStartShouldSetResponder={async() => {
+          <View 
+          style={styles.beginLesson} onStartShouldSetResponder={async() => {
             if ( param['levels'][1] > 8 || param['levels'][2] > 8 || param['levels'][3] > 8 ) {
               await alert('Вы прошли всю методическую программу','', [])
               return
@@ -173,7 +238,7 @@ export default function App({ route, navigation }) {
 
           </View>
           
-        </View>
+        </Animated.View>
 
 
         <View style={styles.tabBar}>
@@ -192,8 +257,14 @@ export default function App({ route, navigation }) {
           </View>
 
 
-          <View style={styles.tab} onStartShouldSetResponder={() => {
-            navigation.navigate('culture',route.params)}}>
+          <View style={styles.tab} onStartShouldSetResponder={async () => {
+            await Animated.timing(translateX,{
+              toValue: -500,
+              duration: 500,
+            }).start()
+            setTimeout(() => {
+              navigation.navigate('culture',route.params)
+            },300)}}>
             <Image
             source={require('../../assets/icons/history2.png')}
             style={styles.tabImage}/>
@@ -203,6 +274,51 @@ export default function App({ route, navigation }) {
         </View>
 
       </ImageBackground>
+
+      <Modal
+        animationType="slide"
+        visible={modal}>
+
+        <View style={styles.modalBackground}>
+
+          <View style={styles.header}>
+    
+            <TouchableHighlight underlayColor={'rgba(255, 0, 255,0)'} onPress={() => setModal(false)}>
+              <Image
+                source={require('../../assets/icons/close.png')}
+                style={styles.close}/>
+            </TouchableHighlight>
+    
+          </View>
+
+
+          <FlatList
+            data={ [plants[0], plants[1], plants[2], plants[3]] }
+            renderItem={ ({ item, index }) => (
+              <View style={styles.row2}>
+
+                <View style={{flexDirection: 'column', width: '50%', alignItems: 'center', justifyContent: 'center'}}>
+                  <Image
+                    source={plants[index*2]}
+                    style={styles.modalPlant}/>
+                    <Text style={styles.text}>{achivs[index*2]}</Text>
+                </View>
+                
+                <View style={{flexDirection: 'column', width: '50%', alignItems: 'center', justifyContent: 'center'}}>
+                  <Image
+                    source={plants[index*2+1]}
+                    style={styles.modalPlant}/>
+                  <Text style={styles.text}>{achivs[index*2+1]}</Text>
+                </View>
+
+              </View>
+            )}
+          />
+          
+        </View>
+
+
+      </Modal>
 
     </SafeAreaView>
 

@@ -1,8 +1,8 @@
 // Импортируем библиотеки и  модули
 import { StatusBar } from 'expo-status-bar'
-import { Image, Text, TouchableHighlight, View, FlatList, ImageBackground } from 'react-native'
+import { Animated, Image, Text, TouchableHighlight, View, FlatList, ImageBackground } from 'react-native'
 import styles from './styles'
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { граматика,фонетика,слЗапас } from '../Lesson/lessons'
 
@@ -13,12 +13,27 @@ export default function App({ route, navigation }) {  const param = route.params
 
   const [array, setArray] = useState([])
 
+  const Opacity = useRef(
+    []
+  ).current
+
 
   React.useEffect(() => { // Хук загрузки данных при переходе на страницу
 
+
     const focusHandler = navigation.addListener('focus', async () => {
 
-      if ( param['title'] == 'Граматика' ) {
+      for (let i = 0; i < 5; i++) {
+
+        await Opacity.push(new Animated.Value(i*-0.5))
+
+        Animated.timing(Opacity[i],{
+          toValue: 100,
+          duration: 5000,
+        }).start()
+      }
+
+      if ( param['title'] == 'Грамматика' ) {
         setArray([
           ['В татарском языке нет родов', 'местоимения он, она, оно в татарском заменяются на ул. \nНапример:\nДевочка ест. Мальчик ест. \nНа татарском - ул ашый', ['Понятно']],
           ['Форма принадлежности','Чтобы сказать что предмет кому-то пренадлежит нужно добавить к слову особое окончание.\nНапример:\nалма — яблоко\nалма-м — мое яблоко\nалма-быз — наше яблоко\nалма-ң — твое яблоко\nалма-гыз — ваше яблоко\nалма-сы — его/ее яблоко',['Понятно']],
@@ -60,7 +75,7 @@ export default function App({ route, navigation }) {  const param = route.params
       <ImageBackground source={require('../../assets/tat.png')} 
                             style={styles.background}>
 
-        <View style={styles.header}>
+        <View style={[styles.header]}>
 
           <TouchableHighlight underlayColor={'rgba(255, 0, 255,0)'} onPress={() => navigation.navigate('lessons',route.params)}>
             <Image
@@ -76,12 +91,12 @@ export default function App({ route, navigation }) {  const param = route.params
             scrollEnabled={true} 
             style={styles.developersList} 
             data={array} 
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
 
-              <View style={styles.devBlock}>
+              <Animated.View style={[styles.devBlock,{opacity: Opacity[index]}]}>
                 <Text style={styles.title}>{item[0]}</Text>
                 <Text style={styles.text}>{item[1]}</Text>
-              </View>
+              </Animated.View>
 
           )}/>
         </View>  

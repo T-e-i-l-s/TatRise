@@ -1,13 +1,13 @@
 // Импортируем библиотеки и  модули
 import { StatusBar } from 'expo-status-bar'
-import { Image, Text, TouchableHighlight, View, FlatList, ImageBackground } from 'react-native'
+import { Image, Text, TouchableHighlight, View, FlatList, ImageBackground, Animated } from 'react-native'
 import styles from './styles'
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 
 const array = [
-  ['Граматика'],
+  ['Грамматика'],
   ['Фонетика'],
   ['Словарный запас'],
 ]
@@ -19,7 +19,52 @@ let param = []
 
 export default function App({ route, navigation }) {
 
+  const translateX = useRef(
+    [
+    new Animated.Value(300),
+    new Animated.Value(450),
+    new Animated.Value(600),
+    ]
+  ).current
+
+  const Opacity = useRef(
+    new Animated.Value(0)
+  ).current
+
+
   const param = route.params
+  
+  React.useEffect(() => { // Хук загрузки данных при переходе на страницу
+
+    
+    const focusHandler = navigation.addListener('focus', async () => {
+
+      Animated.timing(translateX[0], {
+        toValue: 0,
+        duration: 400,
+      }).start()
+      Animated.timing(translateX[1], {
+        toValue: 0,
+        duration: 400,
+      }).start()
+
+      Animated.timing(translateX[2], {
+        toValue: 0,
+        duration: 400,
+      }).start()
+
+      Animated.timing(Opacity,{
+        toValue: 100,
+        duration: 5000,
+      }).start()
+
+
+    });
+
+    return focusHandler;
+
+  }, [navigation]);
+
  
   return (
 
@@ -31,7 +76,7 @@ export default function App({ route, navigation }) {
       <ImageBackground source={require('../../assets/tat.png')} 
                             style={styles.background}>
 
-        <View style={styles.header}>
+        <Animated.View style={[styles.header,{opacity: Opacity}]}>
 
           <TouchableHighlight underlayColor={'rgba(255, 0, 255,0)'} onPress={() => navigation.navigate('main',param)}>
             <Image
@@ -39,7 +84,7 @@ export default function App({ route, navigation }) {
               style={styles.back}/>
           </TouchableHighlight>
 
-        </View>
+        </Animated.View>
 
 
         <View style={{width:'90%'}}>
@@ -47,11 +92,11 @@ export default function App({ route, navigation }) {
             scrollEnabled={true} 
             style={styles.developersList} 
             data={array} 
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
 
-              <View style={styles.devBlock} onStartShouldSetResponder={() => {navigation.navigate('list',{'title': item[0], 'num': param['num'], 'levels': param['levels']});}}>
+              <Animated.View style={[styles.devBlock,{transform: [{translateX: translateX[index]}]}]} onStartShouldSetResponder={() => {navigation.navigate('list',{'title': item[0], 'num': param['num'], 'levels': param['levels']});}}>
                 <Text style={styles.title}>{item[0]}</Text>
-              </View>
+              </Animated.View>
 
           )}/>
         </View>  

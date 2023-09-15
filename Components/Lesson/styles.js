@@ -28,6 +28,35 @@ export default StyleSheet.create({
   },
 
 
+  modal: {
+    margin: 20,
+    backgroundColor: 'red',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+
+
+  row: {
+
+    flexDirection: 'row',
+
+    width: '100%',
+    
+    alignItems: 'center',
+    justifyContent: 'center',
+
+
+  },
+
 
   header: {
 

@@ -1,8 +1,8 @@
 // Импортируем бибилиотеки и модули
 import { StatusBar } from 'expo-status-bar'
-import { Image, Text, TouchableHighlight, View, ImageBackground } from 'react-native'
+import { Image, Text, TouchableHighlight, View, ImageBackground, Animated } from 'react-native'
 import styles from './styles'
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -60,6 +60,17 @@ export default function App({ route, navigation }) {
   const [colors,setColors] = useState(['#edfffc','#224d44']) // Цвета карты
   const [count, setCount] = useState(route.params['num'])
 
+  const translateX = useRef(
+    new Animated.Value(300)
+  ).current
+
+  const translateY = useRef(
+    new Animated.Value(0)
+  ).current
+
+  const Opacity = useRef(
+    new Animated.Value(0)
+  ).current
 
   // Функция смены карты
   async function next () {
@@ -81,6 +92,12 @@ export default function App({ route, navigation }) {
     await setAnki(words[ind])
     await setWord(words[ind][0])
     setColors(['#edfffc','#224d44'])
+
+    translateX.setValue(300)
+
+    Animated.timing(translateX, {
+      toValue: 0
+    }).start()
 
   }
 
@@ -137,21 +154,20 @@ export default function App({ route, navigation }) {
 
   React.useEffect(() => { // Хук загрузки данных при переходе на страницу
 
+    
     const focusHandler = navigation.addListener('focus', async () => {
 
-      try {
+      translateX.setValue(300)
 
-        // const myArray = await AsyncStorage.getItem('words');
+      Animated.timing(Opacity,{
+        toValue: 100,
+        duration: 5000,
+      }).start()
 
-        // if (myArray !== null) {
-
-        //   words = JSON.parse(myArray);
-
-        // }
-
-      } catch (error) {
-        // Error retrieving data
-      }
+      Animated.timing(translateX, {
+        toValue: 0,
+        duration: 300,
+      }).start()
 
     });
 
@@ -170,7 +186,7 @@ export default function App({ route, navigation }) {
       <ImageBackground source={require('../../assets/tat.png')} 
                             style={styles.background}>
 
-        <View style={styles.header}>
+        <Animated.View style={[styles.header,{opacity: Opacity}]}>
 
           <TouchableHighlight underlayColor={'rgba(255, 0, 255,0)'} onPress={() => {
             saveData(); 
@@ -181,17 +197,17 @@ export default function App({ route, navigation }) {
               style={styles.back}/>
           </TouchableHighlight>
 
-        </View>
+        </Animated.View>
 
 
         <View style={styles.block}>
           
 
-          <View style={[styles.anki,{backgroundColor: colors[0]}]} onStartShouldSetResponder={turnOver}>
+          <Animated.View style={[styles.anki,{backgroundColor: colors[0], transform: [{translateX: translateX},{translateY: translateY}]}]} onStartShouldSetResponder={turnOver}>
 
             <Text style={[styles.word, {color: colors[1]}]}>{word}</Text>
 
-          </View>
+          </Animated.View>
 
 
         </View>
