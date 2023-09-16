@@ -58,10 +58,10 @@ export default function App({ route, navigation }) {
         if ( count == null ) {
           count = 1
         } else {
-          count = count - 1
+          count = count-1
         }
   
-      }
+      }``
 
       let res = JSON.parse(await AsyncStorage.getItem('plants'))
 
@@ -118,7 +118,7 @@ export default function App({ route, navigation }) {
           AsyncStorage.setItem('achivs',  JSON.stringify(achivs))
         }
 
-        setPlantImage(plants[count-1])
+        setPlantImage(plants[plants.length-1])
 
       }
 
@@ -283,11 +283,11 @@ export default function App({ route, navigation }) {
 
           <View style={styles.header}>
     
-            <TouchableHighlight underlayColor={'rgba(255, 0, 255,0)'} onPress={() => setModal(false)}>
+            <View onStartShouldSetResponder={() => setModal(false)}>
               <Image
                 source={require('../../assets/icons/close.png')}
                 style={styles.close}/>
-            </TouchableHighlight>
+            </View>
     
           </View>
 

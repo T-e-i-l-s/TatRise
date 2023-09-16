@@ -109,7 +109,7 @@ export default function App({ route, navigation }) {
                   let plants = JSON.parse(await AsyncStorage.getItem('plants'))
                   let achiv = JSON.parse(await AsyncStorage.getItem('achivs'))
                   let count = await AsyncStorage.getItem('count')
-                  if ( plants != null ) {
+                  if ( plants != null && !achiv.includes('Инет') ) {
                     plants.push(require('../../assets/flowers/plant8.png'))
                     achiv.push('Инет')
                     count++
