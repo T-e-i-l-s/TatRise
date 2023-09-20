@@ -15,7 +15,7 @@ let plants = [
   require('../../assets/flowers/plant1.png'),
 ]
 let achivs = [
-  'Прогресс1',
+  'Цветок 1',
 ]
 
 
@@ -100,22 +100,18 @@ export default function App({ route, navigation }) {
 
         // Обновляем растения
 
-        // if ( count == 0) {
-        //   count = 1
-        // }
-
-        if ( count < 7 ){
+        if ( count < 5 ){
           count++
           console.log(count)
           AsyncStorage.setItem('count',  count)
-        }
 
-        if (flag) {
-          plants.push(require('../../assets/flowers/plant' + (count) + '.png'))
-          achivs.push('Прогресс' + (count))
-  
-          AsyncStorage.setItem('plants',  JSON.stringify(plants))
-          AsyncStorage.setItem('achivs',  JSON.stringify(achivs))
+          if (flag) {
+            plants.push(require('../../assets/flowers/plant' + (count) + '.png'))
+            achivs.push('Цветок ' + (count))
+    
+            AsyncStorage.setItem('plants',  JSON.stringify(plants))
+            AsyncStorage.setItem('achivs',  JSON.stringify(achivs))
+          }
         }
 
         setPlantImage(plants[plants.length-1])

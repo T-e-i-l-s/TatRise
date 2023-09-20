@@ -5,6 +5,7 @@ import styles from './styles'
 import React, { useState, useRef } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { граматика,фонетика,слЗапас } from '../Lesson/lessons'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 
@@ -77,7 +78,21 @@ export default function App({ route, navigation }) {  const param = route.params
 
         <View style={[styles.header]}>
 
-          <TouchableHighlight underlayColor={'rgba(255, 0, 255,0)'} onPress={() => navigation.navigate('lessons',route.params)}>
+          <TouchableHighlight underlayColor={'rgba(255, 0, 255,0)'} onPress={async () => {
+
+            let plants = JSON.parse(await AsyncStorage.getItem('plants'))
+            let achiv = JSON.parse(await AsyncStorage.getItem('achivs'))
+
+            if ( plants != null && !achiv.includes('Теоретик') ) {
+              plants.push(require('../../assets/flowers/plant10.png'))
+              achiv.push('Теоретик')
+            }
+            
+            AsyncStorage.setItem('plants',  JSON.stringify(plants))
+            AsyncStorage.setItem('achivs',  JSON.stringify(achiv))
+
+            navigation.navigate('lessons',route.params)
+          }}>
             <Image
               source={require('../../assets/icons/back.png')}
               style={styles.back}/>

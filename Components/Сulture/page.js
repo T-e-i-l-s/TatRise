@@ -21,7 +21,7 @@ const links = [
   ['Татарстан',require('../../assets/links/tatarstan.png'),  'https://www.youtube.com/watch?v=M1Znixq-fvw&t=55s'],
   ['Наши артисты',require('../../assets/links/show.png'),'https://www.last.fm/ru/tag/tatar/artists'],
   ['Рецепты татарской кухни',require('../../assets/links/eat.png'),   'https://www.russianfood.com/recipes/bytype/?fid=177'],
-  ['Татар.Бу Хакатон',require('../../assets/links/hakaton.png'),   'http://selet.biz/news/startuet-proekt-tatar-bu-khakaton/']
+  ['Kazan Digital Week',require('../../assets/links/kdw.png'),   'https://kazandigitalweek.com/ru/site']
 ]
 
 function shuffle(array) {
@@ -108,16 +108,14 @@ export default function App({ route, navigation }) {
                 <Animated.View style={[styles.linkBlock,{opacity: Opacity}]} onStartShouldSetResponder={async () => {
                   let plants = JSON.parse(await AsyncStorage.getItem('plants'))
                   let achiv = JSON.parse(await AsyncStorage.getItem('achivs'))
-                  let count = await AsyncStorage.getItem('count')
-                  if ( plants != null && !achiv.includes('Инет') ) {
+                  
+                  if ( plants != null && !achiv.includes('Гуру культуры') ) {
                     plants.push(require('../../assets/flowers/plant8.png'))
-                    achiv.push('Инет')
-                    count++
+                    achiv.push('Гуру культуры')
                   }
                   
                   AsyncStorage.setItem('plants',  JSON.stringify(plants))
                   AsyncStorage.setItem('achivs',  JSON.stringify(achiv))
-                  AsyncStorage.setItem('count',  count)
                 }}>
                   <Image
                   source={item[1]}

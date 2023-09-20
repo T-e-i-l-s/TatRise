@@ -59,6 +59,7 @@ export default function App({ route, navigation }) {
   const [word,setWord] = useState(words[0][0]) // Слово на карточке
   const [colors,setColors] = useState(['#edfffc','#224d44']) // Цвета карты
   const [count, setCount] = useState(route.params['num'])
+  const f = route.params['num']
 
   const translateX = useRef(
     new Animated.Value(300)
@@ -188,8 +189,18 @@ export default function App({ route, navigation }) {
 
         <Animated.View style={[styles.header,{opacity: Opacity}]}>
 
-          <TouchableHighlight underlayColor={'rgba(255, 0, 255,0)'} onPress={() => {
+          <TouchableHighlight underlayColor={'rgba(255, 0, 255,0)'} onPress={async () => {
             saveData(); 
+            let plants = JSON.parse(await AsyncStorage.getItem('plants'))
+            let achiv = JSON.parse(await AsyncStorage.getItem('achivs'))
+            if ( plants != null && !achiv.includes('Магистр слов') && count - f > 0.05 ) {
+              plants.push(require('../../assets/flowers/plant9.png'))
+              achiv.push('Магистр слов')
+            }
+            
+            AsyncStorage.setItem('plants',  JSON.stringify(plants))
+            AsyncStorage.setItem('achivs',  JSON.stringify(achiv))
+
             navigation.navigate('main',{'num': count, 'levels': route.params['levels']})
           }}>
             <Image
