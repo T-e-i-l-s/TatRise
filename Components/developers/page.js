@@ -6,14 +6,6 @@ import React, { useState, useRef } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Culture from '../Сulture/page'
 
-
-const developers = [
-  ['Мустафин Карим' ,'Разработчик','https://t.me/KMustafin'],
-  ['Пимурзин Рустам','Аналитик','https://t.me/WTGorC'],
-  ['Леухин Алексей' ,'Маркетолог','https://t.me/LyutyChel'],
-  ['Пимурзин Руслан','Дизайнер','https://t.me/Dropio_1966'],
-]
-
 let flag = false
 
 
@@ -22,6 +14,16 @@ export default function App({ route, navigation }) {
   const [open, setOpen] = useState(false)  
   const [f, setF] = useState(false)  
   
+
+
+  const developers = [
+    ['Мустафин Карим' ,'Разработчик','https://t.me/KMustafin'],
+    ['Пимурзин Рустам','Аналитик','https://t.me/WTGorC'],
+    ['Леухин Алексей' ,'Маркетолог','https://t.me/LyutyChel'],
+    ['Пимурзин Руслан','Дизайнер','https://t.me/Dropio_1966'],
+  ]
+
+
   const translateX = useRef(
     [
     new Animated.Value(300),
@@ -37,6 +39,13 @@ export default function App({ route, navigation }) {
   
   React.useEffect(() => { // Хук загрузки данных при переходе на страницу
 
+    if ( !open ) {
+
+      setTimeout(() => {
+        setOpen(true)
+      },200)
+  
+    }
     
     const focusHandler = navigation.addListener('focus', async () => {
 
@@ -72,14 +81,6 @@ export default function App({ route, navigation }) {
   }, [navigation]);
 
 
-  if ( !flag ) {
-
-    flag = true
-    setTimeout(() => {
-      setOpen(true)
-    },200)
-
-  }
 
 
   return (

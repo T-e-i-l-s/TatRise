@@ -106,7 +106,7 @@ export default function App({ route, navigation }) {
           AsyncStorage.setItem('count',  count)
 
           if (flag) {
-            plants.push(require('../../assets/flowers/plant' + (count) + '.png'))
+            plants.push(require('../../assets/flowers/plant1.png'))//'../../assets/flowers/plant' + (count) + '.png'
             achivs.push('Цветок ' + (count))
     
             AsyncStorage.setItem('plants',  JSON.stringify(plants))
