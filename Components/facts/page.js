@@ -1,10 +1,8 @@
-// Импотрируем библиотеки и модули
 import { StatusBar } from 'expo-status-bar'
 import { Animated, Image, Text, TouchableHighlight, View, FlatList } from 'react-native'
 import styles from './styles'
 import React, {useRef, useState} from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
 
 // Факты
 const facts = [
@@ -27,56 +25,37 @@ const facts = [
   ['Заведите словарик','Вы можете записывать слова, которые мы будем вводить в уроки и упражнения.']
 ]
 
-
 export default function App({ route, navigation }) {
-
   const [list, setList] = useState([])
-
   const Opacity = useRef(
     []
   ).current
 
-
-  React.useEffect(() => { // Хук загрузки данных при переходе на страницу
-
+  // Хук загрузки данных при переходе на страницу
+  React.useEffect(() => { 
     const focusHandler = navigation.addListener('focus', async () => {
-
       for (let i = 0; i < facts.length; i++) {
-
         await Opacity.push(new Animated.Value(i*-0.5))
-
         Animated.timing(Opacity[i],{
           toValue: 100,
           duration: 5000,
         }).start()
-
       }
-
       setList(facts)
-
     });
-
     return focusHandler;
-
   }, [navigation]);
 
-
   return (
-
     <SafeAreaView style={styles.container}>
-
       <StatusBar style="auto" />
-
       <Animated.View style={[styles.header,{opacity: Opacity[0]}]}>
-
         <TouchableHighlight underlayColor={'rgba(255, 0, 255,0)'} onPress={() => navigation.navigate('main',route.params)}>
           <Image
             source={require('../../assets/icons/back.png')}
             style={styles.back}/>
         </TouchableHighlight>
-
       </Animated.View>
-
 
       <View style={{width:'90%'}}>
         <FlatList
@@ -84,18 +63,13 @@ export default function App({ route, navigation }) {
           style={styles.factsList} 
           data={list} 
           renderItem={({ item, index }) => (
-
             <Animated.View style={[styles.factBlock,{opacity: Opacity[index]}]}>
               <Text style={styles.title}>{item[0]}</Text>
               <Text style={styles.text}>{item[1]}</Text>
             </Animated.View>
-
         )}/>
       </View>  
 
-
     </SafeAreaView>
-
-  );
-
+  )
 }

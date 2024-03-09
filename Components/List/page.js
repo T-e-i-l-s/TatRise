@@ -1,4 +1,3 @@
-// Импортируем библиотеки и  модули
 import { StatusBar } from 'expo-status-bar'
 import { Animated, Image, Text, TouchableHighlight, View, FlatList, ImageBackground } from 'react-native'
 import styles from './styles'
@@ -8,32 +7,22 @@ import { граматика,фонетика,слЗапас } from '../Lesson/le
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
-
 export default function App({ route, navigation }) {  const param = route.params
-
-
   const [array, setArray] = useState([])
-
   const Opacity = useRef(
     []
   ).current
 
-
-  React.useEffect(() => { // Хук загрузки данных при переходе на страницу
-
-
+  // Хук загрузки данных при переходе на страницу
+  React.useEffect(() => { 
     const focusHandler = navigation.addListener('focus', async () => {
-
       for (let i = 0; i < 5; i++) {
-
         await Opacity.push(new Animated.Value(i*-0.5))
-
         Animated.timing(Opacity[i],{
           toValue: 100,
           duration: 5000,
         }).start()
       }
-
       if ( param['title'] == 'Грамматика' ) {
         setArray([
           ['В татарском языке нет родов', 'местоимения он, она, оно в татарском заменяются на ул. \nНапример:\nДевочка ест. Мальчик ест. \nНа татарском - ул ашый', ['Понятно']],
@@ -59,47 +48,33 @@ export default function App({ route, navigation }) {  const param = route.params
           ['Дети','мәктәп - школа\nбалалар - дети\nбалалар бакчасы - детский сад',['Понятно']],
         ])
       }
-
     });
-
-    return focusHandler;
-
-  }, [navigation]);
+    return focusHandler
+  }, [navigation])
 
   return (
-
     <SafeAreaView style={styles.container}>
-
       <StatusBar style="auto" />
-
 
       <ImageBackground source={require('../../assets/tat.png')} 
                             style={styles.background}>
-
         <View style={[styles.header]}>
-
           <TouchableHighlight underlayColor={'rgba(255, 0, 255,0)'} onPress={async () => {
-
             let plants = JSON.parse(await AsyncStorage.getItem('plants'))
             let achiv = JSON.parse(await AsyncStorage.getItem('achivs'))
-
             if ( plants != null && !achiv.includes('Теоретик') ) {
               plants.push(require('../../assets/flowers/plant10.png'))
               achiv.push('Теоретик')
             }
-            
             AsyncStorage.setItem('plants',  JSON.stringify(plants))
             AsyncStorage.setItem('achivs',  JSON.stringify(achiv))
-
             navigation.navigate('lessons',route.params)
           }}>
             <Image
               source={require('../../assets/icons/back.png')}
               style={styles.back}/>
           </TouchableHighlight>
-
         </View>
-
 
         <View style={{width:'90%'}}>
           <FlatList
@@ -107,20 +82,13 @@ export default function App({ route, navigation }) {  const param = route.params
             style={styles.developersList} 
             data={array} 
             renderItem={({ item, index }) => (
-
               <Animated.View style={[styles.devBlock,{opacity: Opacity[index]}]}>
                 <Text style={styles.title}>{item[0]}</Text>
                 <Text style={styles.text}>{item[1]}</Text>
               </Animated.View>
-
           )}/>
         </View>  
-
       </ImageBackground>
-
-
     </SafeAreaView>
-
-  );
-
+  )
 }

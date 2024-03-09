@@ -8,14 +8,11 @@ import Culture from '../Сulture/page'
 
 let flag = false
 
-
 export default function App({ route, navigation }) {
-
   const [open, setOpen] = useState(false)  
   const [f, setF] = useState(false)  
-  
 
-
+  // Список разработчиков
   const developers = [
     ['Мустафин Карим' ,'Разработчик','https://t.me/KMustafin'],
     ['Пимурзин Рустам','Аналитик','https://t.me/WTGorC'],
@@ -23,7 +20,7 @@ export default function App({ route, navigation }) {
     ['Пимурзин Руслан','Дизайнер','https://t.me/Dropio_1966'],
   ]
 
-
+  // Положения view
   const translateX = useRef(
     [
     new Animated.Value(300),
@@ -33,22 +30,19 @@ export default function App({ route, navigation }) {
     ]
   ).current
   
+  // Прозрачность страницы
   const Opacity = useRef(
     new Animated.Value(0)
   ).current
-  
-  React.useEffect(() => { // Хук загрузки данных при переходе на страницу
 
+  // Хук загрузки данных при переходе на страницу
+  React.useEffect(() => {
     if ( !open ) {
-
       setTimeout(() => {
         setOpen(true)
       },200)
-  
     }
-    
     const focusHandler = navigation.addListener('focus', async () => {
-
       Animated.timing(translateX[0], {
         toValue: 0,
         duration: 400,
@@ -57,52 +51,35 @@ export default function App({ route, navigation }) {
         toValue: 0,
         duration: 400,
       }).start()
-
       Animated.timing(translateX[2], {
         toValue: 0,
         duration: 400,
       }).start()
-
       Animated.timing(translateX[3], {
         toValue: 0,
         duration: 400,
       }).start()
-
       Animated.timing(Opacity,{
         toValue: 100,
         duration: 5000,
       }).start()
-
-
-    });
-
+    })
     return focusHandler;
-
   }, [navigation]);
 
-
-
-
   return (
-
     <SafeAreaView style={styles.container}>
-
       <StatusBar style="auto" />
-
 
       <ImageBackground source={require('../../assets/tat.png')} 
                             style={styles.background}>
-
         <Animated.View style={[styles.header,{opacity: Opacity}]}>
-
           <TouchableHighlight underlayColor={'rgba(255, 0, 255,0)'} onPress={() => navigation.navigate('main',route.params)}>
             <Image
               source={require('../../assets/icons/back.png')}
               style={styles.back}/>
           </TouchableHighlight>
-
         </Animated.View>
-
 
         <View style={{width:'90%'}}>
           <FlatList
@@ -110,29 +87,20 @@ export default function App({ route, navigation }) {
             style={styles.developersList} 
             data={developers} 
             renderItem={({ item, index }) => (
-
               <Animated.View style={[styles.devBlock,{transform: [{translateX: translateX[index]}]}]}>
                 <View style={styles.row}>
                   <Text style={styles.title}>{item[0]}</Text>
-
                   <TouchableHighlight style={{width: '20%', alignItems: 'center'}} underlayColor={'rgba(255, 0, 255,0)'} onPress={() => {if(open){Linking.openURL(item[2])}}}>
                     <Image
                       source={require('../../assets/icons/tg.png')}
                       style={styles.back}/>
                   </TouchableHighlight>
-
                 </View>
                 <Text style={styles.text}>{item[1]}</Text>
               </Animated.View>
-
           )}/>
         </View>  
-
       </ImageBackground>
-
-
     </SafeAreaView>
-
-  );
-
+  )
 }
